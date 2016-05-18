@@ -26,7 +26,7 @@ public:
   void retirerIndividuSupprimes();
   void supprimer(int id);
 
-  QList<Individu&> obtIndividus ();
+  QList<Individu> &obtIndividus();
   GroupeManager& obtGroupeManager (){return groupes;};
 
   //Debug function

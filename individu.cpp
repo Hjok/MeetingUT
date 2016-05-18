@@ -6,12 +6,13 @@ int Individu::idCount=0;
 void Individu::print()
 {
     qDebug() << obtNomComplet();
-    qDebug() << id;
-    qDebug() << "Liste de groupes : ";
+    qDebug() << "Id : " + id;
+    QString grou =  "Liste de groupes : ";
     for(int i=0; i<groupes.size(); i++)
     {
-        qDebug() << groupes[i]->obtNom();
+        grou = grou + groupes[i]->obtNom() + " / ";
     }
+    qDebug()<<grou;
 }
 
 void Individu::retirerGroupe(Groupe *_groupe)

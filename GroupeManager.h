@@ -15,17 +15,23 @@ private:
   // Operations
 public:
   void ajouterGroupe (QString _nom);
-  void retirerGroupe (Groupe _groupe);
-  void retirerGroupe (Groupe& groupe);
-  void defInteret (Groupe& g1, Groupe& g2, unsigned int interet);
+  void ajouterGroupe(QString _nom, int _id);
+  void retirerGroupe (Groupe* _groupe);
+  void defInteret (Groupe* _g1, Groupe* _g2, unsigned int _interet);
   int obtInteret (Groupe groupe1, Groupe groupe2);
+
+  int obtProcId();
+
+  bool idExiste(int _id);
+
   Groupe* obtGroupeParNom(QString _nom);
+  Groupe* obtGroupeParId(int _id);
 
 
   void print();
 
 private:
-  void construireMatriceInteret();
+  void initInterets(Groupe *_groupeAInit);
 
 };
 

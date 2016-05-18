@@ -8,10 +8,14 @@ class Groupe {
   // Attributes
 private:
   QString nom;
+  int id;
   // Operations
 public:
   QString obtNom (){return nom;};
-  Groupe(QString _nom):nom(_nom){};
+  int obtId(){return id;};
+  Groupe(QString _nom);
+  Groupe(QString _nom, int _id);
+  bool operator ==(Groupe _groupe);
 };
 
 

@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     meeting.cpp \
     groupemanager.cpp \
     individu.cpp \
-    testindividu.cpp
+    testindividu.cpp \
+    groupe.cpp
 
 HEADERS += \
     Groupe.h \

@@ -1,4 +1,6 @@
 #include "GroupeManager.h"
+#include "Meeting.h"
+
 
 Groupe* GroupeManager::obtGroupeParNom(QString _nom)
 {
@@ -10,16 +12,49 @@ Groupe* GroupeManager::obtGroupeParNom(QString _nom)
     return 0;
 }
 
-void GroupeManager::ajouterGroupe(QString _nom)
+Groupe* GroupeManager::obtGroupeParId(int _id)
 {
-    if(obtGroupeParNom(_nom))
-        throw 1;
-    groupes.append(Groupe( _nom));
+    for(int i=0; i<groupes.size(); i++)
+    {
+        if(groupes[i].obtId() == _id)
+            return &groupes[i];
+    }
+    return 0;
 }
 
-void GroupeManager::construireMatriceInteret()
+int GroupeManager::obtProcId()
 {
+    int id=0;
+    while(idExiste(id))
+        id++;
+    return id;
+}
 
+void GroupeManager::ajouterGroupe(QString _nom)
+{
+    //Si le groupe n'existe pas
+    if(obtGroupeParNom(_nom))
+        throw 1;
+    //On le crée
+    groupes.append(Groupe( _nom));
+    //Et on initialise ses interets à 0
+    initInterets(&groupes.last());
+}
+
+void GroupeManager::ajouterGroupe(QString _nom, int _id)
+{
+    //Si le groupe n'existe pas
+    if(obtGroupeParNom(_nom))
+        throw 1;
+    //On le crée
+    groupes.append(Groupe( _nom, _id));
+    //Et on initialise ses interets à 0
+    initInterets(&groupes.last());
+}
+
+void GroupeManager::defInteret (Groupe* _g1, Groupe* _g2, unsigned int _interet)
+{
+    matriceInteret[_g1][_g2] = _interet;
 }
 
 void GroupeManager::print()
@@ -29,4 +64,27 @@ void GroupeManager::print()
     {
         qDebug() << groupes[i].obtNom();
     }
+}
+
+bool GroupeManager::idExiste(int _id)
+{
+    if(obtGroupeParId(_id)!=0)
+        return true;
+    return false;
+}
+void GroupeManager::initInterets(Groupe* _groupeAInit)
+{
+    for(int i=0; i<groupes.size(); i++)
+    {
+        matriceInteret[_groupeAInit][&groupes[i]]=0;
+    }
+}
+void GroupeManager::retirerGroupe (Groupe* _groupe)
+{
+    qDebug() << "Nombre d'élèments retirés de la matrice " + matriceInteret.remove(_groupe);
+    for(int i=0; i<Meeting::getInstance().obtIndividus().size(); i++)
+    {
+        Meeting::getInstance().obtIndividus()[i].retirerGroupe(_groupe);
+    }
+    groupes.removeAll(*_groupe);
 }

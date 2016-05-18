@@ -14,6 +14,11 @@ Meeting& Meeting::getInstance(bool create)
 
 }
 
+QList<Individu>& Meeting::obtIndividus()
+{
+    return participants;
+}
+
 void Meeting::ajoutIndividu(QString _nom, QString _prenom, QList<QString> _groupes)
 {
     participants.append(Individu(_nom, _prenom));
