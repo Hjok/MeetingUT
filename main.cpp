@@ -20,14 +20,16 @@ int main(int argc, char *argv[])
 
     meeting.ajoutIndividu("Antoine", "Jouglet", grou);
 
-    meeting.print();
+    meeting.obtGroupeManager().defInteret(meeting.obtIndividus().first().obtGroupes().first(), meeting.obtIndividus().first().obtGroupes().last(), 2);
 
-    meeting.obtGroupeManager().print();
+    qDebug() << meeting.obtGroupeManager().obtInteret(meeting.obtIndividus().first().obtGroupes().first(), meeting.obtIndividus().first().obtGroupes().last());
+
+    qDebug() << meeting.obtGroupeManager().obtInteret(meeting.obtIndividus().first().obtGroupes().last(), meeting.obtIndividus().first().obtGroupes().last());
 
     meeting.obtGroupeManager().retirerGroupe(meeting.obtGroupeManager().obtGroupeParId(1));
 
-    meeting.print();
-    meeting.obtGroupeManager().print();
+
+    qDebug() << meeting.obtGroupeManager().obtInteret(meeting.obtIndividus().first().obtGroupes().first(), meeting.obtIndividus().first().obtGroupes().last());
 
 
     return a.exec();

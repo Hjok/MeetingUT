@@ -6,7 +6,7 @@ int Individu::idCount=0;
 void Individu::print()
 {
     qDebug() << obtNomComplet();
-    qDebug() << "Id : " + id;
+    qDebug() <<  id;
     QString grou =  "Liste de groupes : ";
     for(int i=0; i<groupes.size(); i++)
     {

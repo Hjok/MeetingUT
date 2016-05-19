@@ -81,10 +81,22 @@ void GroupeManager::initInterets(Groupe* _groupeAInit)
 }
 void GroupeManager::retirerGroupe (Groupe* _groupe)
 {
-    qDebug() << "Nombre d'élèments retirés de la matrice " + matriceInteret.remove(_groupe);
+    for(int i=0; i<groupes.size(); i++)
+    {
+        matriceInteret[&groupes[i]].remove(_groupe);
+    }
+    matriceInteret.remove(_groupe);
+
     for(int i=0; i<Meeting::getInstance().obtIndividus().size(); i++)
     {
         Meeting::getInstance().obtIndividus()[i].retirerGroupe(_groupe);
     }
     groupes.removeAll(*_groupe);
+
+}
+int GroupeManager::obtInteret (Groupe* _groupe1, Groupe* _groupe2)
+{
+    if(matriceInteret.contains(_groupe1) && matriceInteret[_groupe1].contains(_groupe2))
+        return matriceInteret[_groupe1][_groupe2];
+    return 0;
 }

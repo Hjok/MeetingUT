@@ -18,7 +18,7 @@ public:
   void ajouterGroupe(QString _nom, int _id);
   void retirerGroupe (Groupe* _groupe);
   void defInteret (Groupe* _g1, Groupe* _g2, unsigned int _interet);
-  int obtInteret (Groupe groupe1, Groupe groupe2);
+  int obtInteret (Groupe *_groupe1, Groupe *_groupe2);
 
   int obtProcId();
 
