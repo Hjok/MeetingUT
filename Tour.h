@@ -9,12 +9,15 @@
 class Tour {
   // Attributes
 private:
-  unsigned int id;
-  unsigned int duree;
   QList<Rencontre> rencontres;
+  QList<const Individu*> personnesNonPlacees;
+  bool estRescence(const Individu* _personne);
   // Operations
 public:
-  void echangerPersonnes (Individu personne1, Individu personne2);
+  void echangerPersonnes (Individu *_personne1, Individu *_personne2);
+  void ajoutRencontre(Rencontre _rencontre){rencontres.append(_rencontre);};
+  void ajoutPersonneNonPlacee(Individu* _personne){personnesNonPlacees.append(_personne);};
+  void completerPersonnesNonPlacees();
 };
 
 #endif

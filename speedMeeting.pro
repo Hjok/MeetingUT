@@ -1,5 +1,5 @@
 QT += core \
-    testlib
+      xml
 QT -= gui
 
 CONFIG += c++11
@@ -14,8 +14,12 @@ SOURCES += main.cpp \
     meeting.cpp \
     groupemanager.cpp \
     individu.cpp \
-    testindividu.cpp \
-    groupe.cpp
+    groupe.cpp \
+    chargeur.cpp \
+    table.cpp \
+    solution.cpp \
+    rencontre.cpp \
+    tour.cpp
 
 HEADERS += \
     Groupe.h \
@@ -25,4 +29,5 @@ HEADERS += \
     Rencontre.h \
     Table.h \
     Tour.h \
-    testindividu.h
+    Solution.h \
+    chargeur.h

@@ -11,8 +11,8 @@ private:
   int id;
   // Operations
 public:
-  QString obtNom (){return nom;};
-  int obtId(){return id;};
+  QString obtNom () const {return nom;};
+  int obtId() const {return id;};
   Groupe(QString _nom);
   Groupe(QString _nom, int _id);
   bool operator ==(Groupe _groupe);

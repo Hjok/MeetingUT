@@ -1,5 +1,5 @@
 #include "testindividu.h"
-
+/*
 TestIndividu::TestIndividu(QObject *parent) : QObject(parent)
 {
 
@@ -51,3 +51,4 @@ void TestIndividu::groupes()
     QVERIFY(i2.obtGroupes().first() == &g2);
 
 }
+*/
