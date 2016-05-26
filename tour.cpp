@@ -44,3 +44,19 @@ bool Tour::estRescence(const Individu* _personne)
     }
     return false;
 }
+QVariant Tour::data(const QModelIndex &index, int role) const
+{
+    if (role == Qt::DisplayRole)
+    {
+        if(index.row()<personnesNonPlacees.length())
+            return personnesNonPlacees.at(index.row());
+    }
+    return QVariant();
+}
+
+Tour& Tour::operator =(const Tour& _tour)
+{
+    this->personnesNonPlacees=_tour.personnesNonPlacees;
+    this->rencontres=_tour.rencontres;
+    return *this;
+}

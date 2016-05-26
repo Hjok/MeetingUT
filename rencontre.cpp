@@ -10,7 +10,7 @@ Rencontre::Rencontre(int _table, QList<int> _personnes, int _valeur)
     valeur=_valeur;
 }
 
-bool Rencontre::ajouterPersonne(Individu * _personne)
+bool Rencontre::ajouterPersonne(const Individu *_personne)
 {
     if(table->obtNombreDePlaces() <= personnes.length())
         return false;
@@ -18,7 +18,7 @@ bool Rencontre::ajouterPersonne(Individu * _personne)
     return true;
 }
 
-void Rencontre::retirerPersonne(Individu *_personne)
+void Rencontre::retirerPersonne(const Individu *_personne)
 {
     personnes.removeAll(_personne);
 }
@@ -34,7 +34,7 @@ bool Rencontre::contientPersonne(const Individu *_personne)
 }
 
 
-void Rencontre::remplacePersonne(Individu* _personneARemplacer, Individu* _personneRemplacante)
+void Rencontre::remplacePersonne(const Individu* _personneARemplacer, const Individu* _personneRemplacante)
 {
     personnes.replace(personnes.indexOf(_personneARemplacer), _personneRemplacante);
 }

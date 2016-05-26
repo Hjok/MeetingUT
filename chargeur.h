@@ -9,17 +9,23 @@
 
 class chargeur
 {
-private:
+protected:
     Meeting& meeting;
 public:
-    explicit chargeur(Meeting& _meeting);
+    chargeur(Meeting& _meeting);
+    virtual void chargeMeeting(QString _chemin)=0;
+    virtual void chargeSolution(QString _chemin)=0;
+    virtual void sauveMeeting(QString _chemin)=0;
+
+};
+
+class parseurXml : public chargeur
+{
+public:
+    parseurXml(Meeting& _meeting);
     void chargeMeeting(QString _chemin);
     void chargeSolution(QString _chemin);
     void sauveMeeting(QString _chemin);
-
-signals:
-
-public slots:
 };
 
 #endif // CHARGEUR_H

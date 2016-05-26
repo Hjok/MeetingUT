@@ -1,8 +1,11 @@
 QT += core \
-      xml
-QT -= gui
+      xml\
+      gui\
+        testlib
 
 CONFIG += c++11
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = speedMeeting
 CONFIG += console
@@ -19,7 +22,15 @@ SOURCES += main.cpp \
     table.cpp \
     solution.cpp \
     rencontre.cpp \
-    tour.cpp
+    tour.cpp \
+    matriceinteret.cpp \
+    fenetreprincipale.cpp \
+    groupegraphique.cpp \
+    tablegraphiqueedition.cpp \
+    individugraphique.cpp \
+    individueditiongraphique.cpp \
+    touredition.cpp \
+    visualisation.cpp
 
 HEADERS += \
     Groupe.h \
@@ -30,4 +41,21 @@ HEADERS += \
     Table.h \
     Tour.h \
     Solution.h \
-    chargeur.h
+    chargeur.h \
+    matriceinteret.h \
+    fenetreprincipale.h \
+    groupegraphique.h \
+    tablegraphiqueedition.h \
+    individugraphique.h \
+    individueditiongraphique.h \
+    touredition.h \
+    visualisation.h
+
+FORMS += \
+    fenetreprincipale.ui \
+    groupegraphique.ui \
+    tablegraphiqueedition.ui \
+    individugraphique.ui \
+    individueditiongraphique.ui \
+    touredition.ui
+

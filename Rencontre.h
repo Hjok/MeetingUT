@@ -10,16 +10,16 @@ class Rencontre {
   // Attributes
 private:
   Table* table;
-  QList<Individu*> personnes;
+  QList<const Individu*> personnes;
   int valeur;
   // Operations
 public:
-  Rencontre(Table* _table, QList<Individu*> _personnes, int _valeur):table(_table), personnes(_personnes), valeur(_valeur){};
+  Rencontre(Table* _table, QList<const Individu*> _personnes, int _valeur):table(_table), personnes(_personnes), valeur(_valeur){};
   Rencontre(int _table, QList<int> _personnes, int _valeur);
-  bool ajouterPersonne (Individu* _personne);
-  void retirerPersonne (Individu* _personne);
+  bool ajouterPersonne (const Individu* _personne);
+  void retirerPersonne (const Individu* _personne);
   int obtValeurRencontre();
   bool contientPersonne(const Individu* _personne);
-  void remplacePersonne(Individu* _personneARemplacer, Individu* _personneRemplacante);
+  void remplacePersonne(const Individu* _personneARemplacer, const Individu* _personneRemplacante);
 };
 #endif

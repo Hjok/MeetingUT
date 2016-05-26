@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TableGraphiqueEdition</class>
+ <widget class="QWidget" name="TableGraphiqueEdition">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>70</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>20</y>
+     <width>851</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLineEdit" name="nombreDePlaces">
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>places par table</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="nombreDeTables">
+      <property name="maximumSize">
+       <size>
+        <width>125</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>nombre de tables</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="valideNouvellesTables">
+      <property name="maximumSize">
+       <size>
+        <width>246</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Ajouter des tables</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="listeTables"/>
+    </item>
+    <item>
+     <widget class="QPushButton" name="supprimerTable">
+      <property name="maximumSize">
+       <size>
+        <width>246</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Supprimer</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

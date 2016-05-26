@@ -21,13 +21,16 @@ public:
   Individu(QString _nom, QList<Groupe*> _groupes);
 
   void retirerGroupe(Groupe* _groupe);
-  void ajouterGroupe(Groupe* _groupe){groupes.append(_groupe);};
+  void retirerGroupes(){groupes.clear();};
+  void ajouterGroupe(Groupe* _groupe){if(!groupes.contains(_groupe))groupes.append(_groupe);};
 
-  const QList<Groupe*> obtGroupes(){return groupes;};
+  const QList<Groupe*> obtGroupes()const{return groupes;};
 
-  QString obtNom(){return nom;};
+  QString obtNom()const{return nom;};
 
-  int obtId(){return id;}
+  int obtId() const{return id;}
+
+  void defNom(QString _nom){nom=_nom;};
   bool estSupprime(){return supprime;};
   void supprimer(){supprime =true;};
 

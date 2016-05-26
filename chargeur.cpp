@@ -6,7 +6,12 @@ chargeur::chargeur(Meeting& _meeting) : meeting(_meeting)
 {
 
 }
-void chargeur::chargeMeeting(QString _chemin)
+parseurXml::parseurXml(Meeting &_meeting) : chargeur(_meeting)
+{
+
+}
+
+void parseurXml::chargeMeeting(QString _chemin)
 {
     //Variables tempiraires pour la création des tables
     QString idTable;
@@ -31,22 +36,21 @@ void chargeur::chargeMeeting(QString _chemin)
     QFile file(_chemin);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug()<<"Echec de l'ouverture du fichier";
-        //return -1;
+        //Si le fichier ne s'ouvre pas/n'existe pas
+        throw(0);
     }
     else
     {
         if(!document.setContent(&file))
         {
-            qDebug()<<"Echec de l'ouverture du fichier";
-            // return -1;
+            //Si le fichier n'est pas un fichier xml valide
+            throw(0);
         }
         file.close();
     }
     //Récupération du premier élément du document
     //QDomElement input = document.firstChildElement();
     QDomNode speedMeeting = document.elementsByTagName("speedMeetingInput").at(0);
-    qDebug()<<speedMeeting.toElement().tagName()<<speedMeeting.toElement().text();
     QDomNodeList speedMeetingNode = speedMeeting.childNodes();
     for(int i = 0 ; i < speedMeetingNode.size() ; i++)
     {
@@ -54,7 +58,6 @@ void chargeur::chargeMeeting(QString _chemin)
         QDomElement currentElement = node.toElement();
         if(currentElement.tagName() == "dataList")
         {
-            qDebug()<<currentElement.tagName()<<currentElement.text();
             QDomNode dataList = document.elementsByTagName("dataList").at(0);
             QDomNodeList dataListNode = dataList.childNodes();
             for(int i = 0 ; i < dataListNode.size() ; i++)
@@ -68,7 +71,6 @@ void chargeur::chargeMeeting(QString _chemin)
                 }
                 if(currentDataListElement.tagName() == "tableList")
                 {
-                    qDebug()<<currentDataListElement.tagName()<<currentDataListElement.text();
                     QDomNode tableList = document.elementsByTagName("tableList").at(0);
                     QDomNodeList tableListNode = tableList.childNodes();
                     for(int i = 0 ; i < tableListNode.size() ; i++)
@@ -77,7 +79,6 @@ void chargeur::chargeMeeting(QString _chemin)
                         QDomElement currentTableListElement = nodeTableList.toElement();
                         if(currentTableListElement.tagName() == "table")
                         {
-                            qDebug()<<currentTableListElement.tagName()<<currentTableListElement.text();
                             QDomNode table = currentTableListElement.firstChild();
 
                             while(!table.isNull())
@@ -113,7 +114,6 @@ void chargeur::chargeMeeting(QString _chemin)
         }
         if(currentElement.tagName() == "groupList")
         {
-            qDebug()<<currentElement.tagName()<<currentElement.text();
             QDomNode groupList = document.elementsByTagName("groupList").at(0);
             QDomNodeList groupListNode = groupList.childNodes();
             for(int i = 0 ; i < groupListNode.size() ; i++)
@@ -122,7 +122,6 @@ void chargeur::chargeMeeting(QString _chemin)
                 QDomElement currentGroupListElement = nodeGroupList.toElement();
                 if(currentGroupListElement.tagName() == "group")
                 {
-                    qDebug()<<currentGroupListElement.tagName()<<currentGroupListElement.text();
                     QDomNode group = currentGroupListElement.firstChild();
 
                     while(!group.isNull())
@@ -235,7 +234,7 @@ void chargeur::chargeMeeting(QString _chemin)
     }
 
 }
-void chargeur::chargeSolution(QString _chemin)
+void parseurXml::chargeSolution(QString _chemin)
 {
     //Création du document
     QDomDocument document;
@@ -243,17 +242,16 @@ void chargeur::chargeSolution(QString _chemin)
     QFile file(_chemin);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug()<<"Echec de l'ouverture du fichier 1";
-        //return -1;
+        //Si le fichier ne s'ouvre pas/n'existe pas
+        throw(0);
     }
     else
     {
         if(!document.setContent(&file))
         {
-            qDebug()<<"Echec de l'ouverture du fichier 2";
-            // return -1;
+            //Si le fichier n'est pas un fichier xml valide
+            throw(0);
         }
-        file.close();
     }
 
     meeting.nouvelleSolution();
@@ -265,6 +263,7 @@ void chargeur::chargeSolution(QString _chemin)
 
     Tour nouveauTour;
 
+    //Variables temporaires de métadonnées
     QString cleMetaDonnees;
     QString valeurMetaDonnees;
 
@@ -349,6 +348,7 @@ void chargeur::chargeSolution(QString _chemin)
                         }
                     }
                     nouveauTour.completerPersonnesNonPlacees();
+                    nouveauTour.defNumeroTour(Meeting::getInstance().obtSolution()->obtNumeroNouveauTour());
                     Meeting::getInstance().obtSolution()->ajoutTour(nouveauTour);
                 }
             }
@@ -394,7 +394,7 @@ void chargeur::chargeSolution(QString _chemin)
         }
     }
 }
-void chargeur::sauveMeeting(QString _chemin)
+void parseurXml::sauveMeeting(QString _chemin)
 {
     QMap<int, int> interets;
     QMap<int, int>::iterator j;
@@ -436,7 +436,7 @@ void chargeur::sauveMeeting(QString _chemin)
         interets=meeting.obtGroupeManager().obtListeInteretIds(&(meeting.obtGroupeManager().obtGroupes().at(i)));
         for(j=interets.begin(); j!= interets.end(); ++j)
         {
-            xmlWriter.writeStartElement("interestList");
+            xmlWriter.writeStartElement("interest");
             xmlWriter.writeTextElement("id", QString::number(j.key()));
             xmlWriter.writeTextElement("value", QString::number(j.value()));
             xmlWriter.writeEndElement();

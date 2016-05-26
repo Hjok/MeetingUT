@@ -15,25 +15,6 @@ Meeting& Meeting::getInstance(bool create)
 
 }
 
-void Meeting::chargeInstance(QString _chemin, QString _cheminSolution)
-{
-    Meeting& meeting=getInstance();
-    meeting.vider();
-    chargeur charge(meeting);
-    charge.chargeMeeting(_chemin);
-    if(!_cheminSolution.isEmpty())
-        charge.chargeSolution(_cheminSolution);
-
-}
-
-void Meeting::sauvegarder(QString _cheminMeeting, QString _cheminSolution)
-{
-    chargeur sauve(getInstance());
-    sauve.sauveMeeting(_cheminMeeting);
-    /*if(!_cheminSolution.isEmpty())
-        charge.chargeSolution(_cheminSolution);*/
-}
-
 QList<Individu> &Meeting::obtIndividus()
 {
     return participants;
@@ -48,6 +29,7 @@ void Meeting::ajoutIndividu(QString _nom, QList<QString> _groupes)
         if(nouveauGroupe)
             participants.last().ajouterGroupe(nouveauGroupe);
     }
+    emit individuCree(participants.last().obtNom(), participants.last().obtId());
 }
 
 
@@ -60,16 +42,19 @@ void Meeting::ajoutIndividu(QString _nom, int _id, QList<int> &_groupes)
          if(nouveauGroupe)
              participants.last().ajouterGroupe(nouveauGroupe);
      }
+     emit individuCree(participants.last().obtNom(), participants.last().obtId());
 }
 
 void Meeting::supprimerIndividu(int _id)
 {
+    emit solutionSupprimee();
     delete solution;
     for(int i =0; i<participants.size(); i++)
     {
         if(participants[i].obtId() == _id)
             participants[i].supprimer();
     }
+    emit individuSupprime(_id);
 }
 
 
@@ -99,7 +84,7 @@ bool Meeting::idIndividuExiste(int _id)
     }
     return false;
 }
-Individu* Meeting::obtIndividuParId(int _id)
+Individu *Meeting::obtIndividuParId(int _id)
 {
     for(int i =0; i<participants.size(); i++)
     {
@@ -109,19 +94,44 @@ Individu* Meeting::obtIndividuParId(int _id)
     return NULL;
 }
 
-
+void Meeting::modifierIndividu(int _id, QString _nom, QList<int> _groupes)
+{
+    for(int i =0; i<participants.size(); i++)
+    {
+        if(participants[i].obtId()==_id)
+        {
+            participants[i].defNom(_nom);
+            participants[i].retirerGroupes();
+            for(int i =0; i<_groupes.size(); i++)
+            {
+                Groupe* nouveauGroupe = groupes.obtGroupeParId(_groupes[i]);
+                if(nouveauGroupe)
+                    participants[i].ajouterGroupe(nouveauGroupe);
+            }
+        }
+    }
+}
 
 void Meeting::ajoutTable(QString _label, int _capacite, int _id)
 {
     tables.append(Table(_label, _capacite, _id));
+    emit tableCree(_label, _id, _capacite);
 }
-void Meeting::ajoutTable(QString _label, int _capacite)
+void Meeting::ajoutTable(int _capacite)
 {
-    tables.append(Table(_label, _capacite));
+    tables.append(Table("Table n° " + QString::number(obtTableId()), _capacite));
+    emit tableCree(tables.last().obtLabel(), tables.last().obtId(), tables.last().obtNombreDePlaces());
+}
+void Meeting::ajoutTables(int _nombre, int _capacite)
+{
+    for(int i=0; i<_nombre; i++)
+        ajoutTable(_capacite);
+
 }
 
 void Meeting::supprimerTable(int _id)
 {
+    emit solutionSupprimee();
     delete solution; //Le solution utilise les tables existantes, une modification entraine donc son invalidation
     int index=-1;
     for(int i =0; i<tables.size(); i++)
@@ -129,6 +139,7 @@ void Meeting::supprimerTable(int _id)
         if(tables[i].obtId()==_id)
             index=i;
     }
+    emit tableSupprimee(tables.at(index).obtId());
     tables.removeAt(index);
 }
 
@@ -159,8 +170,15 @@ Table* Meeting::obtTableParId(int _id)
     return NULL;
 }
 
+void Meeting::defNombreTours(int _nombreTours)
+{
+    nombreTours=_nombreTours;
+    emit modifierTours(nombreTours);
+}
+
 void Meeting::vider()
 {
+    emit solutionSupprimee();
     if(solution != NULL)
     {
         delete solution;
@@ -173,9 +191,11 @@ void Meeting::vider()
 
 void Meeting::nouvelleSolution()
 {
+    emit solutionSupprimee();
     if(solution != NULL)
         delete solution;
     solution=new Solution();
+    emit solutionCree();
 }
 
 Solution* Meeting::obtSolution()

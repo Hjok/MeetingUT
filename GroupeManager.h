@@ -4,13 +4,15 @@
 #include "Groupe.h"
 #include <QList>
 #include <QMap>
-#include <QDebug>
+#include "matriceinteret.h"
+#include <QObject>
 
 /// class GroupeManager - 
-class GroupeManager {
+class GroupeManager:public QObject {
+    Q_OBJECT
   // Attributes
 private:
-  QMap<const Groupe* , QMap<const Groupe*, int>> matriceInteret;
+  MatriceInteret matriceInteret;
   QList<Groupe> groupes;
   // Operations
 public:
@@ -19,6 +21,7 @@ public:
   void retirerGroupe (Groupe* _groupe);
   void defInteret (const Groupe* _g1, const Groupe* _g2, unsigned int _interet);
   void defMatriceInteret(QMap<int, QMap<int, int>>& _matriceIds);
+  MatriceInteret* obtMatriceInteret(){return &matriceInteret;};
   QMap<int, int> obtListeInteretIds (const Groupe *_groupe)const;
   int obtInteret (const Groupe *_groupe1, const Groupe *_groupe2);
 
@@ -38,6 +41,10 @@ public:
 
 private:
   void initInterets(const Groupe *_groupeAInit);
+
+signals:
+  void listeGroupeAjout(QString _nomGroupe);
+  void listeGroupeRetrait(QString _nomGroupe);
 
 };
 

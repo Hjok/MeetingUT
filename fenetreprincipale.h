@@ -1,0 +1,42 @@
+#ifndef FENETREPRINCIPALE_H
+#define FENETREPRINCIPALE_H
+
+#include <QMainWindow>
+#include "groupegraphique.h"
+#include "tablegraphiqueedition.h"
+#include "individugraphique.h"
+#include <QTabWidget>
+#include <chargeur.h>
+#include <touredition.h>
+#include <QComboBox>
+
+namespace Ui {
+class FenetrePrincipale;
+}
+
+class FenetrePrincipale : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit FenetrePrincipale(QWidget *parent = 0);
+    ~FenetrePrincipale();
+
+private:
+    Ui::FenetrePrincipale *ui;
+    GroupeGraphique* editionGroupes;
+    TableGraphiqueEdition* editionTables;
+    IndividuGraphique* editionIndividus;
+    QTabWidget* onglets;
+    TourEdition* editionTour;
+    QComboBox* listeTours;
+private slots:
+    void enregistrer();
+    void chargerProbleme();
+    void chargerSolution();
+    void changeNombreTours(int _nombreTours);
+    void barreOngletClique(int _index);
+
+};
+
+#endif // FENETREPRINCIPALE_H
