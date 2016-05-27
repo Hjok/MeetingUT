@@ -31,9 +31,10 @@ private:
     TourEdition* editionTour;
     QComboBox* listeTours;
 private slots:
-    void enregistrer();
+    void enregistrer(QString _chemin=QString());
     void chargerProbleme();
-    void chargerSolution();
+    void choisirCheminSolution();
+    void chargerSolution(QString _chemin=QString());
     void changeNombreTours(int _nombreTours);
     void barreOngletClique(int _index);
 

@@ -9,7 +9,7 @@ Groupe::Groupe(QString _nom):nom(_nom)
 Groupe::Groupe(QString _nom, int _id):nom(_nom)
 {
     if(Meeting::getInstance().obtGroupeManager().idExiste(_id))
-        throw 0;
+        throw 1;
     id=_id;
 }
 

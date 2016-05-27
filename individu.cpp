@@ -7,7 +7,7 @@ int Individu::idCount=0;
 Individu::Individu(QString _nom, int _id):nom(_nom), supprime(false)
 {
     if(Meeting::getInstance().idIndividuExiste(_id))
-        throw 0;
+        throw 1;
     id=_id;
 }
 Individu::Individu(QString _nom, QList<Groupe*> _groupes):nom(_nom), supprime(false), groupes(_groupes)

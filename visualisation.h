@@ -14,6 +14,7 @@ public:
 private:
     QTableView* personnesNonPlacees;
     int numero;
+    QWidget* rencontres;
 
 signals:
 

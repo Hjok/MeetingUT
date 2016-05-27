@@ -22,11 +22,17 @@ public:
   void ajoutRencontre(Rencontre _rencontre){rencontres.append(_rencontre);};
   void ajoutPersonneNonPlacee(Individu* _personne){personnesNonPlacees.append(_personne);};
   void completerPersonnesNonPlacees();
+  QList<const Individu*> obtPersonnesNonPlacees(){return personnesNonPlacees;};
   void defNumeroTour(int _numero){numero=_numero;};
+  int obtNombreRencontre(){return rencontres.length();};
+  Rencontre &obtRencontre(int _numero);
 
   int rowCount(const QModelIndex &parent) const{return personnesNonPlacees.length();};
 
+  void print();
+
   QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+  QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
   Tour& operator =(const Tour &_tour);
 

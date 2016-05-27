@@ -56,6 +56,7 @@ public:
   //Gestion solution
   void nouvelleSolution();
   Solution* obtSolution();
+  void solutionConstruite(){emit solutionCree();};
 
   GroupeManager& obtGroupeManager (){return groupes;};
 

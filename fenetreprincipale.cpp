@@ -50,12 +50,13 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
         visualisation->layout()->addWidget(listeTours);
         //Composant d'affichage de tour de la solution
         Visualisation* afficheSolution=new Visualisation();
+        visualisation->layout()->addWidget(afficheSolution);
 
 
     //Connection des signaux au menu, pour le chargement/enregistrement
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(0), SIGNAL(triggered()), this, SLOT(enregistrer()));
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(1), SIGNAL(triggered()), this, SLOT(chargerProbleme()));
-    connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(2), SIGNAL(triggered()), this, SLOT(chargerSolution()));
+    connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(2), SIGNAL(triggered()), this, SLOT(choisirCheminSolution()));
 
 
     connect(&Meeting::getInstance(), SIGNAL(modifierTours(int)), this, SLOT(changeNombreTours(int)));
@@ -70,13 +71,14 @@ FenetrePrincipale::~FenetrePrincipale()
 {
     delete ui;
 }
-void FenetrePrincipale::enregistrer()
+void FenetrePrincipale::enregistrer(QString _chemin)
 {
-    QString chemin = QFileDialog::getSaveFileName(this, tr("Enregistrer"),
+    if(_chemin.isEmpty())
+    _chemin = QFileDialog::getSaveFileName(this, tr("Enregistrer"),
                                                   "~/Documents/input.xml",
                                                   tr("XML (*.xml)"));
     parseurXml sauvegarde(Meeting::getInstance());
-    sauvegarde.sauveMeeting(chemin);
+    sauvegarde.sauveMeeting(_chemin);
 }
 void FenetrePrincipale::chargerProbleme()
 {
@@ -88,7 +90,6 @@ void FenetrePrincipale::chargerProbleme()
                                                       "~/Documents/",
                                                       tr("XML (*.xml)"));
         charger.chargeMeeting(chemin);
-        Meeting::getInstance().print();
     }
     catch(int i)
     {
@@ -106,9 +107,37 @@ void FenetrePrincipale::chargerProbleme()
         }
     }
 }
-void FenetrePrincipale::chargerSolution()
+void FenetrePrincipale::choisirCheminSolution()
 {
+    QString _chemin= QFileDialog::getOpenFileName(this, tr("Ouvrir"),
+                                                              "~/Documents/",
+                                                              tr("XML (*.xml)"));
+    chargerSolution(_chemin);
+}
 
+void FenetrePrincipale::chargerSolution(QString _chemin)
+{
+    if(_chemin.isEmpty())
+        _chemin="/tmp/output.xml";
+    parseurXml charger(Meeting::getInstance());
+    try{
+    charger.chargeSolution(_chemin);
+    }
+    catch(int i)
+    {
+        if(i==0)
+        {
+            QMessageBox messageBox;
+            messageBox.critical(0,"Erreur","Erreur interne du fichier");
+            messageBox.setFixedSize(500,200);
+        }
+        if(i==1)
+        {
+            QMessageBox messageBox;
+            messageBox.critical(0,"Erreur","Les données sont incohérentes");
+            messageBox.setFixedSize(500,200);
+        }
+    }
 }
 
 //Slot appellé lorsque le nombre de tours du meeting change
@@ -125,6 +154,12 @@ void FenetrePrincipale::barreOngletClique(int _index)
 {
     if(_index==1)
     {
-        qDebug() << "hop";
+        if(Meeting::getInstance().obtSolution()==NULL)
+        {
+            QProcess * process = new QProcess(this);
+            enregistrer("/tmp/input.xml");
+            connect(process, SIGNAL(finished(int)), this, SLOT(chargerSolution()));
+            process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
+        }
     }
 }

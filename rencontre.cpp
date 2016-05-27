@@ -38,3 +38,45 @@ void Rencontre::remplacePersonne(const Individu* _personneARemplacer, const Indi
 {
     personnes.replace(personnes.indexOf(_personneARemplacer), _personneRemplacante);
 }
+
+Rencontre& Rencontre::operator =(const Rencontre& _rencontre)
+{
+    this->personnes=_rencontre.personnes;
+    this->valeur=_rencontre.valeur;
+    this->table=_rencontre.table;
+    return (*this);
+}
+
+int Rencontre::rowCount(const QModelIndex &parent) const
+{
+    return this->personnes.size();
+}
+
+int Rencontre::columnCount(const QModelIndex &parent) const
+{
+    return 2;
+}
+QVariant Rencontre::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole && orientation==Qt::Horizontal)
+    {
+        if(section==0)
+            return "Nom";
+        if(section==1)
+            return "Valeur";
+    }
+    return QVariant();
+}
+QVariant Rencontre::data(const QModelIndex &index, int role) const
+{
+    if(role== Qt::DisplayRole)
+    {
+        if(index.column()==0)
+        {
+            return personnes.at(index.row())->obtNom();
+        }
+        if(index.column()==1)
+            return 0;
+        //Calcul de valeur individuel à implémenter
+    }
+}

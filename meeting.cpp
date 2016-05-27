@@ -195,7 +195,6 @@ void Meeting::nouvelleSolution()
     if(solution != NULL)
         delete solution;
     solution=new Solution();
-    emit solutionCree();
 }
 
 Solution* Meeting::obtSolution()

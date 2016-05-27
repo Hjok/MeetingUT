@@ -49,7 +49,16 @@ QVariant Tour::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole)
     {
         if(index.row()<personnesNonPlacees.length())
-            return personnesNonPlacees.at(index.row());
+            return personnesNonPlacees.at(index.row())->obtNom();
+    }
+    return QVariant();
+}
+QVariant Tour::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole)
+    {
+        if(orientation==Qt::Horizontal)
+            return "Personnes non placées";
     }
     return QVariant();
 }
@@ -59,4 +68,23 @@ Tour& Tour::operator =(const Tour& _tour)
     this->personnesNonPlacees=_tour.personnesNonPlacees;
     this->rencontres=_tour.rencontres;
     return *this;
+}
+void Tour::print()
+{
+
+    for(int i=0; i<rencontres.size(); i++)
+    {
+        qDebug() << rencontres[i].obtValeurRencontre();
+    }
+}
+Rencontre& Tour::obtRencontre(int _numero)
+{
+    int j=0;
+    for (QList<Rencontre>::iterator i = rencontres.begin(); i != rencontres.end(); ++i)
+    {
+        if(j== _numero)
+            return *i;
+        j++;
+    }
+    throw 1;
 }

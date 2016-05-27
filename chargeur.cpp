@@ -37,14 +37,14 @@ void parseurXml::chargeMeeting(QString _chemin)
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         //Si le fichier ne s'ouvre pas/n'existe pas
-        throw(0);
+        throw 0;
     }
     else
     {
         if(!document.setContent(&file))
         {
             //Si le fichier n'est pas un fichier xml valide
-            throw(0);
+            throw 0;
         }
         file.close();
     }
@@ -243,18 +243,19 @@ void parseurXml::chargeSolution(QString _chemin)
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         //Si le fichier ne s'ouvre pas/n'existe pas
-        throw(0);
+        throw 0;
     }
     else
     {
         if(!document.setContent(&file))
         {
             //Si le fichier n'est pas un fichier xml valide
-            throw(0);
+            throw 0;
         }
     }
 
     meeting.nouvelleSolution();
+    meeting.obtSolution()->print();
 
     //Variables temporaires pour les rencontres
     QString tableRencontre;
@@ -285,25 +286,21 @@ void parseurXml::chargeSolution(QString _chemin)
                 if(currentTourListElement.tagName() == "tour")
                 {
                     nouveauTour=Tour();
-                    QDomNode tour = document.elementsByTagName("tour").at(0);
-                    QDomNodeList tourNode = tour.childNodes();
+                    //QDomNode tour = document.elementsByTagName("tour").at(0);
+                    QDomNodeList tourNode = currentTourListElement.childNodes();
                     for(int i = 0 ; i < tourNode.size() ; i++)
                     {
                         QDomNode nodeTour = tourNode.at(i);
-                        QDomElement currentTourElement = nodeTour.toElement();
-                        //Récupération du nombre de tours
-                        /*if(currentTourElement.tagName() == "value")
-                        {
-                            qDebug()<<currentTourElement.tagName()<<currentTourElement.text();
-                        }*/
+                        /*QDomElement currentTourElement = nodeTour.toElement();
                         if(currentTourElement.tagName() == "tableList")
-                        {
-                            QDomNode tableList = document.elementsByTagName("tableList").at(0);
-                            QDomNodeList tableListNode = tableList.childNodes();
+                        {*/
+                            //QDomNode tableList = document.elementsByTagName("tableList").at(0);
+
+                            /*QDomNodeList tableListNode =nodeTour.childNodes();
                             for(int i = 0 ; i < tableListNode.size() ; i++)
                             {
-                                QDomNode nodeTableList = tableListNode.at(i);
-                                QDomElement currentTableListElement = nodeTableList.toElement();
+                                QDomNode nodeTableList = tableListNode.at(i);*/
+                                QDomElement currentTableListElement = nodeTour.toElement();
                                 if(currentTableListElement.tagName() == "table")
                                 {
                                     QDomNode table = currentTableListElement.firstChild();
@@ -344,12 +341,14 @@ void parseurXml::chargeSolution(QString _chemin)
                                     tableRencontre=QString();
                                     valeurRencontre=QString();
                                 }
-                            }
-                        }
+                            //}
+                        //}
                     }
+
                     nouveauTour.completerPersonnesNonPlacees();
-                    nouveauTour.defNumeroTour(Meeting::getInstance().obtSolution()->obtNumeroNouveauTour());
-                    Meeting::getInstance().obtSolution()->ajoutTour(nouveauTour);
+
+                    nouveauTour.defNumeroTour(meeting.obtSolution()->obtNumeroNouveauTour());
+                    meeting.obtSolution()->ajoutTour(nouveauTour);
                 }
             }
 
@@ -393,6 +392,7 @@ void parseurXml::chargeSolution(QString _chemin)
             }
         }
     }
+    meeting.solutionConstruite();
 }
 void parseurXml::sauveMeeting(QString _chemin)
 {

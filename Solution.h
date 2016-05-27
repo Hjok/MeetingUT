@@ -13,6 +13,7 @@ public:
     QMap<QString, int>& obtMetaDonnees(){return metaDonnees;};
     Tour &obtTour(int _numero);
     int obtNumeroNouveauTour(){return tours.length();};
+    void print(){qDebug()<<tours.length();}
 private:
     QList<Tour> tours;
     QMap<QString, int> metaDonnees;
