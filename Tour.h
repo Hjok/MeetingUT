@@ -26,6 +26,7 @@ public:
   void defNumeroTour(int _numero){numero=_numero;};
   int obtNombreRencontre(){return rencontres.length();};
   Rencontre &obtRencontre(int _numero);
+  int obtValeur();
 
   int rowCount(const QModelIndex &parent) const{return personnesNonPlacees.length();};
 

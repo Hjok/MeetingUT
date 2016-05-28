@@ -49,10 +49,12 @@ void Meeting::supprimerIndividu(int _id)
 {
     emit solutionSupprimee();
     delete solution;
+    qDebug() << "Solution supprimée";
+    solution=NULL;
     for(int i =0; i<participants.size(); i++)
     {
         if(participants[i].obtId() == _id)
-            participants[i].supprimer();
+            participants.removeAt(i);
     }
     emit individuSupprime(_id);
 }
@@ -133,6 +135,7 @@ void Meeting::supprimerTable(int _id)
 {
     emit solutionSupprimee();
     delete solution; //Le solution utilise les tables existantes, une modification entraine donc son invalidation
+    solution=NULL;
     int index=-1;
     for(int i =0; i<tables.size(); i++)
     {

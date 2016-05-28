@@ -88,3 +88,10 @@ Rencontre& Tour::obtRencontre(int _numero)
     }
     throw 1;
 }
+int Tour::obtValeur()
+{
+    int valeur=0;
+    for(int i=0; i<rencontres.size(); i++)
+        valeur+=rencontres[i].obtValeurRencontre();
+    return valeur;
+}

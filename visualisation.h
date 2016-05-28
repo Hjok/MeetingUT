@@ -15,6 +15,8 @@ private:
     QTableView* personnesNonPlacees;
     int numero;
     QWidget* rencontres;
+    QList<QTableView *> tableaux;
+    QGridLayout* layoutTableaux;
 
 signals:
 
@@ -22,6 +24,8 @@ public slots:
 private slots:
     void solutionAffiche();
     void tourChange(int _numero);
+    void afficheTour();
+    void solutionDesactivee();
 
 };
 
