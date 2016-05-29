@@ -1,6 +1,7 @@
 #include "visualisation.h"
 #include "Meeting.h"
 #include <QTableView>
+#include "fenetreprincipale.h"
 
 Visualisation::Visualisation(QWidget *parent) : QWidget(parent)
 {
@@ -32,6 +33,8 @@ void Visualisation::solutionAffiche()
 
         layout()->addWidget(personnesNonPlacees);
         afficheTour();
+
+        emit metaDonneesChangees(Meeting::getInstance().obtSolution()->obtMetaDonneesText());
     }
 }
 void Visualisation::tourChange(int _numero)
@@ -62,5 +65,6 @@ void Visualisation::solutionDesactivee()
     }
     qDeleteAll(tableaux);
     tableaux.clear();
+    emit metaDonneesChangees();
 
 }

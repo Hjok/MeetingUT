@@ -19,6 +19,7 @@ private:
     QGridLayout* layoutTableaux;
 
 signals:
+    void metaDonneesChangees(QString metaDonnees="Pas de solution calculée");
 
 public slots:
 private slots:

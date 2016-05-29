@@ -52,11 +52,14 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
         Visualisation* afficheSolution=new Visualisation();
         visualisation->layout()->addWidget(afficheSolution);
 
+        statusBar()->addWidget(new QLabel("Pas de solution calculée"));
+
 
     //Connection des signaux au menu, pour le chargement/enregistrement
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(0), SIGNAL(triggered()), this, SLOT(enregistrer()));
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(1), SIGNAL(triggered()), this, SLOT(chargerProbleme()));
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(2), SIGNAL(triggered()), this, SLOT(choisirCheminSolution()));
+    connect(afficheSolution, SIGNAL(metaDonneesChangees(QString)), this, SLOT(changeBarreStatut(QString)));
 
 
     connect(&Meeting::getInstance(), SIGNAL(modifierTours(int)), this, SLOT(changeNombreTours(int)));
@@ -162,4 +165,9 @@ void FenetrePrincipale::barreOngletClique(int _index)
             process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
         }
     }
+}
+void FenetrePrincipale::changeBarreStatut(QString _texteStatut)
+{
+    statusBar()->findChild<QLabel*>()->setText(_texteStatut);
+    statusBar()->update();
 }

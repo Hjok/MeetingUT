@@ -384,7 +384,7 @@ void parseurXml::chargeSolution(QString _chemin)
                     }
                     if(!cleMetaDonnees.isEmpty() && ! valeurMetaDonnees.isEmpty())
                     {
-                        Meeting::getInstance().obtSolution()->obtMetaDonnees()[cleMetaDonnees]=valeurMetaDonnees.toInt();
+                        Meeting::getInstance().obtSolution()->obtMetaDonnees()[cleMetaDonnees]=valeurMetaDonnees;
                         cleMetaDonnees=QString();
                         valeurMetaDonnees=QString();
                     }

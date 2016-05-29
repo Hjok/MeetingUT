@@ -9,6 +9,7 @@
 #include <chargeur.h>
 #include <touredition.h>
 #include <QComboBox>
+#include <QLabel>
 
 namespace Ui {
 class FenetrePrincipale;
@@ -37,6 +38,7 @@ private slots:
     void chargerSolution(QString _chemin=QString());
     void changeNombreTours(int _nombreTours);
     void barreOngletClique(int _index);
+    void changeBarreStatut(QString _texteStatut);
 
 };
 
