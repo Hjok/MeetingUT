@@ -63,7 +63,7 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
 
 
     connect(&Meeting::getInstance(), SIGNAL(modifierTours(int)), this, SLOT(changeNombreTours(int)));
-    connect(onglets, SIGNAL(tabBarClicked(int)), this, SLOT(barreOngletClique(int)));
+    connect(onglets, SIGNAL(currentChanged(int)), this, SLOT(barreOngletClique(int)));
     connect(listeTours, SIGNAL(currentIndexChanged(int)), afficheSolution, SLOT(tourChange(int)));
 
 
@@ -157,12 +157,24 @@ void FenetrePrincipale::barreOngletClique(int _index)
 {
     if(_index==1)
     {
-        if(Meeting::getInstance().obtSolution()==NULL)
+        //Si on a suffisament de données pour calculer la solution
+        if(Meeting::getInstance().problemeComplet())
         {
-            QProcess * process = new QProcess(this);
-            enregistrer("/tmp/input.xml");
-            connect(process, SIGNAL(finished(int)), this, SLOT(chargerSolution()));
-            process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
+            if(Meeting::getInstance().obtSolution()==NULL)
+            {
+                QProcess * process = new QProcess(this);
+                enregistrer("/tmp/input.xml");
+                connect(process, SIGNAL(finished(int)), this, SLOT(chargerSolution()));
+                process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
+            }
+        }
+        //Sinon on revient sur l'onglet d'édition du problème et on lance une erreur
+        else
+        {
+            onglets->setCurrentIndex(0);
+            QMessageBox messageBox;
+            messageBox.critical(0,"Erreur","Il manque des données pour pouvoir traiter le problème");
+            messageBox.setFixedSize(500,200);
         }
     }
 }

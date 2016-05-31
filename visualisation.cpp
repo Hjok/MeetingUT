@@ -1,6 +1,7 @@
 #include "visualisation.h"
 #include "Meeting.h"
 #include <QTableView>
+#include <QListView>
 #include "fenetreprincipale.h"
 
 Visualisation::Visualisation(QWidget *parent) : QWidget(parent)
@@ -29,7 +30,7 @@ void Visualisation::solutionAffiche()
             layoutTableaux->addWidget(tableau, i/3, i%3);
         }
         //Transform to List View ?
-        personnesNonPlacees = new QTableView();
+        personnesNonPlacees = new QListView();
 
         layout()->addWidget(personnesNonPlacees);
         afficheTour();

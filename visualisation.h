@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QTableView>
+#include <QListView>
 class Visualisation : public QWidget
 {
     Q_OBJECT
@@ -12,7 +13,7 @@ public:
     explicit Visualisation(QWidget *parent = 0);
 
 private:
-    QTableView* personnesNonPlacees;
+    QListView* personnesNonPlacees;
     int numero;
     QWidget* rencontres;
     QList<QTableView *> tableaux;

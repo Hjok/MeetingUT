@@ -205,6 +205,13 @@ Solution* Meeting::obtSolution()
     return solution;
 }
 
+bool Meeting::problemeComplet()
+{
+    if(participants.length()>1 && tables.length()>1 && nombreTours>0 && groupes.obtGroupes().length()>0)
+        return true;
+    return false;
+}
+
 void Meeting::print()
 {
     groupes.print();

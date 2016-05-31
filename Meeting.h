@@ -52,6 +52,8 @@ public:
   void defNombreTours(int _nombreTours);
   int obtNombreTours(){return nombreTours;};
 
+  //Le problème comporte-t-il tous les paramètres nécessaires pour générer une solution ?
+  bool problemeComplet();
 
   //Gestion solution
   void nouvelleSolution();
