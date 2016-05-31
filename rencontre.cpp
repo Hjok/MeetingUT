@@ -76,7 +76,18 @@ QVariant Rencontre::data(const QModelIndex &index, int role) const
             return personnes.at(index.row())->obtNom();
         }
         if(index.column()==1)
-            return 0;
+        {
+            int interet=0;
+            for(int i=0; i< personnes.length(); i++)
+            {
+                //On ne calcule pas l'interet de se rencontrer soi-même
+                if(i!=index.row())
+                {
+                    interet+=personnes.at(index.row())->obtInteretRencontre(personnes.at(i));
+                }
+            }
+            return interet;
+        }
         //Calcul de valeur individuel à implémenter
     }
 }

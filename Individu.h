@@ -23,6 +23,7 @@ public:
   void retirerGroupe(Groupe* _groupe);
   void retirerGroupes(){groupes.clear();};
   void ajouterGroupe(Groupe* _groupe){if(!groupes.contains(_groupe))groupes.append(_groupe);};
+  int obtInteretRencontre(const Individu *_personneRencontree) const;
 
   const QList<Groupe*> obtGroupes()const{return groupes;};
 

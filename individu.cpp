@@ -34,3 +34,16 @@ void Individu::retirerGroupe(Groupe *_groupe)
     if(i>=0)
         groupes.removeAt(i);
 }
+
+int Individu::obtInteretRencontre(const Individu *_personneRencontree) const
+{
+    int interet =0;
+    for(int i=0; i<groupes.length(); i++)
+    {
+        for(int j=0; j<_personneRencontree->groupes.length(); j++)
+        {
+            interet+=Meeting::getInstance().obtGroupeManager().obtInteret(groupes[i], _personneRencontree->groupes[j]);
+        }
+    }
+    return interet;
+}
