@@ -207,7 +207,7 @@ Solution* Meeting::obtSolution()
 
 bool Meeting::problemeComplet()
 {
-    if(participants.length()>1 && tables.length()>1 && nombreTours>0 && groupes.obtGroupes().length()>0)
+    if(participants.length()>1 && tables.length()>0 && nombreTours>0 && groupes.obtGroupes().length()>0)
         return true;
     return false;
 }
