@@ -7,6 +7,11 @@
 #include <QString>
 #include <iostream>
 
+/*!
+ * \brief La classe chargeur est l'interface d'entrée sortie
+ *
+ * Elle fournit les méthodes abstraites permettant de lire ou d'écrire les données d'un Meeting
+ */
 class chargeur
 {
 protected:
@@ -18,6 +23,9 @@ public:
     virtual void sauveMeeting(QString _chemin)=0;
 
 };
+/*!
+ * \brief La classe parseurXml implémente l'interface chargeur pour des fichiers xml
+ */
 
 class parseurXml : public chargeur
 {

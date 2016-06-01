@@ -13,57 +13,75 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FenetrePrincipale)
 {
+    //On commence par charger le fichier ui
     ui->setupUi(this);
+    //Et on ajoute un layout pour pouvoir placer nos composants
     ui->centralwidget->setLayout(new QVBoxLayout());
 
-    //Onglets
+    //Initialisation du composant d'onglets
     onglets = new QTabWidget();
-
-    //Onglet édition
-    QWidget* edition= new QWidget();
-    edition->setLayout(new QVBoxLayout());
-    onglets->addTab(edition, "Édition du problème");
+    //Et ajout au layout principal, qu'il occupera seul
     ui->centralwidget->layout()->addWidget(onglets);
 
-        //Création des composants
-        editionTour = new TourEdition();
-        editionGroupes = new GroupeGraphique();
-        editionTables = new TableGraphiqueEdition();
-        editionIndividus = new IndividuGraphique();
+        //Création de l'onglet d'édition
+        QWidget* edition= new QWidget();
+            //Ajout d'un layout
+            edition->setLayout(new QVBoxLayout());
+            //On ajoute le wiget d'édition à la barre d'onglet
+            onglets->addTab(edition, "Édition du problème");
 
-        //Et ajout à l'onglet édition
-        edition->layout()->addWidget(editionTour);
-        edition->layout()->addWidget(editionIndividus);
-        edition->layout()->addWidget(editionTables);
-        edition->layout()->addWidget(editionGroupes);
+                //Création des composants d'édition
+                editionTour = new TourEdition();
+                editionGroupes = new GroupeGraphique();
+                editionTables = new TableGraphiqueEdition();
+                editionIndividus = new IndividuGraphique();
 
-    //Onglet Visualisation
-    QWidget* visualisation= new QWidget();
-    visualisation->setLayout(new QVBoxLayout());
-    onglets->addTab(visualisation, "Solution");
-    ui->centralwidget->layout()->addWidget(onglets);
+                //Et ajout à l'onglet édition
+                edition->layout()->addWidget(editionTour);
+                edition->layout()->addWidget(editionIndividus);
+                edition->layout()->addWidget(editionTables);
+                edition->layout()->addWidget(editionGroupes);
 
-        //Composant de sélection de tours pour la visualisation de la solution
-        listeTours=new QComboBox();
-        listeTours->setMaximumHeight(50);
-        changeNombreTours(Meeting::getInstance().obtNombreTours());
-        visualisation->layout()->addWidget(listeTours);
-        //Composant d'affichage de tour de la solution
-        Visualisation* afficheSolution=new Visualisation();
-        visualisation->layout()->addWidget(afficheSolution);
+        //Création de l'onglet de visualisation
+        QWidget* visualisation= new QWidget();
+            //Ajout d'un layout au xidget de visualisation
+            visualisation->setLayout(new QVBoxLayout());
+            //Et ajout de la visualisation à la barre d'onglet
+            onglets->addTab(visualisation, "Solution");
 
-        statusBar()->addWidget(new QLabel("Pas de solution calculée"));
+                //Composant de sélection de tours pour la visualisation de la solution
+                listeTours=new QComboBox();
+                //On limite sa taille pour ne pas qu'il prenne trop de place verticale
+                listeTours->setMaximumHeight(50);
+                //Et on l'ajoute au layout de visualisation
+                visualisation->layout()->addWidget(listeTours);
+
+                //Création du composant d'affichage de tour de la solution
+                Visualisation* afficheSolution=new Visualisation();
+                //Et ajout au layout de visualisation
+                visualisation->layout()->addWidget(afficheSolution);
 
 
-    //Connection des signaux au menu, pour le chargement/enregistrement
+
+    //Connection des signaux du menu aux slots correspondant, pour le chargement/enregistrement
+    //Enregistrement
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(0), SIGNAL(triggered()), this, SLOT(enregistrer()));
+    //Chargement d'un problème
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(1), SIGNAL(triggered()), this, SLOT(chargerProbleme()));
+    //Chargement d'une solution
     connect(this->menuBar()->findChild<QMenu*>("menuFichier")->actions().at(2), SIGNAL(triggered()), this, SLOT(choisirCheminSolution()));
+
+    //Initialisation de la barre de statuts de la fenêtre, c'est elle qui contiendra les méta-données des solutions
+    statusBar()->addWidget(new QLabel("Pas de solution calculée"));
+    //Et connexion du signal de changement des métadonnées de la classe d'affichage des tours avec le slot de changement de barre des statuts
     connect(afficheSolution, SIGNAL(metaDonneesChangees(QString)), this, SLOT(changeBarreStatut(QString)));
 
 
+    //Connection du signal de changement du nombre de tours du meeting avec le slot mettant à jour le menu de sélection de tours
     connect(&Meeting::getInstance(), SIGNAL(modifierTours(int)), this, SLOT(changeNombreTours(int)));
+    //Connection du changement d'onglet avec le slot qui gère la génération du problème
     connect(onglets, SIGNAL(currentChanged(int)), this, SLOT(barreOngletClique(int)));
+    //Connexion de la sélection du menu de sélection de tours avec la composant qui affiche le tour afin de mettre ce dernier à jour
     connect(listeTours, SIGNAL(currentIndexChanged(int)), afficheSolution, SLOT(tourChange(int)));
 
 
@@ -74,15 +92,25 @@ FenetrePrincipale::~FenetrePrincipale()
 {
     delete ui;
 }
+/*!
+ * Slot d'enregistrement, qui va sauvegarder le problème à l'emplacement chemin
+ * Si _chemin n'est pas fourni, il le demande à l'utilisateur
+ * Ce slot est utilisé lors du calcul de solution, avec en argument un chemin temporaire
+ */
 void FenetrePrincipale::enregistrer(QString _chemin)
 {
     if(_chemin.isEmpty())
     _chemin = QFileDialog::getSaveFileName(this, tr("Enregistrer"),
                                                   "~/Documents/input.xml",
                                                   tr("XML (*.xml)"));
+    //On crée une instance de parseurXml qui gérera l'enregistrement du meeting actuel
     parseurXml sauvegarde(Meeting::getInstance());
     sauvegarde.sauveMeeting(_chemin);
 }
+/*!
+ * Slot de chargement du problème, qui va charger un problème sauvegardé en demandant son emplacement à l'utilisateur
+ *
+ */
 void FenetrePrincipale::chargerProbleme()
 {
     try{
@@ -98,18 +126,24 @@ void FenetrePrincipale::chargerProbleme()
     {
         if(i==0)
         {
+            //Le programme n'a pas réussi à ouvrir ou à parser le fichier indiqué
             QMessageBox messageBox;
             messageBox.critical(0,"Erreur","Merci de vérifier vos données");
             messageBox.setFixedSize(500,200);
         }
         if(i==1)
         {
+            //Le fichier a été correctement parsé, mais il est incohérent (utilisateurs appartiennent à des groupes inexistants, etc.)
             QMessageBox messageBox;
             messageBox.critical(0,"Erreur","Les données sont incohérentes");
             messageBox.setFixedSize(500,200);
         }
     }
 }
+/*!
+ * Slot qui est appelé lorsque l'utilisateur sélectionne l'option "charger une solution"
+ * Il demande le chemin à l'utilisateur et appelle le slot de chargement de solution avec ce chemin
+ */
 void FenetrePrincipale::choisirCheminSolution()
 {
     QString _chemin= QFileDialog::getOpenFileName(this, tr("Ouvrir"),
@@ -117,11 +151,18 @@ void FenetrePrincipale::choisirCheminSolution()
                                                               tr("XML (*.xml)"));
     chargerSolution(_chemin);
 }
-
+/*!
+ * Le slot permettant de charger une solution
+ * Il peut-être appelé par l'utilisateur via choisirCheminSolution ou par le processus de calcul de la solution
+ *
+ */
 void FenetrePrincipale::chargerSolution(QString _chemin)
 {
+    //Le chemin par défaut est celui qu'utilise le processus de calcul de la solution
     if(_chemin.isEmpty())
         _chemin="/tmp/output.xml";
+
+    //Création de l'instance permettant de charger la solution
     parseurXml charger(Meeting::getInstance());
     try{
     charger.chargeSolution(_chemin);
@@ -130,12 +171,14 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
     {
         if(i==0)
         {
+            //Si le fichier est introuvable ou incorect syntaxiquement
             QMessageBox messageBox;
             messageBox.critical(0,"Erreur","Erreur interne du fichier");
             messageBox.setFixedSize(500,200);
         }
         if(i==1)
         {
+            //Si la solution n'est pas cohérente avec le problème (appel à des individus ou groupes qui n'existent pas, etc.)
             QMessageBox messageBox;
             messageBox.critical(0,"Erreur","Les données sont incohérentes");
             messageBox.setFixedSize(500,200);
@@ -143,28 +186,41 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
     }
 }
 
-//Slot appellé lorsque le nombre de tours du meeting change
+/*!
+ * Slot de changement du nombre de tours du meeting
+ */
 void FenetrePrincipale::changeNombreTours(int _nombreTours)
 {
+    //On remet à zéro le menu de changement de tours
     listeTours->clear();
+    //Et on le remplit avec le nouveau nombre de tours
     for(int i=1; i<= _nombreTours; i++)
     {
         listeTours->addItem("Tour n°" + QString::number(i), i);
     }
+    //Notons qu'en cas de changement du nombre de tours la solution est détruite avant qu'on appelle ce slot, il n'y a donc pas de risques d'incohérence
 }
-//Navigation dans les onglet, si on atteint l'onglet solution et qu'il n'existe pas de solution, on lance le calcul
+/*!
+ * Slot appelé au clici sur l'onglet solution, si aucune solution n'existe et que les données du problème
+ * ont été fournies, il lance le calcul de la solution.
+ */
 void FenetrePrincipale::barreOngletClique(int _index)
 {
+    //Si l'onglet solution a été sélectionné
     if(_index==1)
     {
         //Si on a suffisament de données pour calculer la solution
         if(Meeting::getInstance().problemeComplet())
         {
+            //Si la solution n'a pas déjà été calculée
             if(Meeting::getInstance().obtSolution()==NULL)
             {
                 QProcess * process = new QProcess(this);
+                //On enregistre le problème
                 enregistrer("/tmp/input.xml");
+                //On connecte la fin du calcul et le chargement de la solution, ainsi à la fin du calcul la solution sera immédiatement lue
                 connect(process, SIGNAL(finished(int)), this, SLOT(chargerSolution()));
+                //Et on lance le calcul
                 process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
             }
         }
@@ -178,6 +234,9 @@ void FenetrePrincipale::barreOngletClique(int _index)
         }
     }
 }
+/*!
+ * Slot permettant d'inscrire un texte dans la barre de statut
+ */
 void FenetrePrincipale::changeBarreStatut(QString _texteStatut)
 {
     statusBar()->findChild<QLabel*>()->setText(_texteStatut);
