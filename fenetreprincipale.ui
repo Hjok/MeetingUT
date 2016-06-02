@@ -31,7 +31,7 @@
    </property>
    <widget class="QMenu" name="menuFichier">
     <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
+     <enum>Qt::defaultContextMenu</enum>
     </property>
     <property name="title">
      <string>Fichier</string>

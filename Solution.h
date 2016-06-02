@@ -9,13 +9,13 @@ public:
     Solution(){};
 
     void ajoutTour(Tour& _tour){tours.append(_tour);};
-    void defMetaDonnees(QMap<QString, QString> _metaDonnees){metaDonnees=_metaDonnees;};
-    QMap<QString, QString>& obtMetaDonnees(){return metaDonnees;};
-    Tour &obtTour(int _numero);
-    int obtNumeroNouveauTour(){return tours.length();};
+    void definirMetaDonnees(QMap<QString, QString> _metaDonnees){metaDonnees=_metaDonnees;};
+    QMap<QString, QString>& obtenirMetaDonnees(){return metaDonnees;};
+    Tour &obtenirTour(int _numero);
+    int obtenirNumeroNouveauTour(){return tours.length();};
     void print(){qDebug()<<tours.length();}
-    QString obtMetaDonneesText();
-    int obtValeur() const;
+    QString obtenirMetaDonneesText();
+    int obtenirValeur() const;
 private:
     QList<Tour> tours;
     QMap<QString, QString> metaDonnees;

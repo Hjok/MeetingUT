@@ -3,13 +3,13 @@
 
 Table::Table(QString _label, int _nombreDePlaces, int _id):label(_label), nombreDePlaces(_nombreDePlaces)
 {
-    if(Meeting::getInstance().idTableExiste(_id))
+    if(Meeting::obtenirenirInstance().idTableExiste(_id))
         throw 1;
     id=_id;
 }
 Table::Table(QString _label, int _nombreDePlaces):label(_label), nombreDePlaces(_nombreDePlaces)
 {
-    id=Meeting::getInstance().obtTableId();
+    id=Meeting::obtenirenirInstance().obtenirTableId();
 }
 void Table::print()
 {

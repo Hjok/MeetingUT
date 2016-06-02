@@ -15,12 +15,12 @@ private:
 public:
   Table(QString _label, int _nombreDePlaces, int _id);
   Table(QString _label, int _nombreDePlaces);
-  int obtNombreDePlaces () const{return nombreDePlaces;}
-  void defNombreDePlaces(int _nombreDePlaces){nombreDePlaces = _nombreDePlaces;}
-  QString obtLabel() const{return label;};
-  void defLabel(QString _label){label=_label;};
-  int obtId() const{return id;};
-  void defId(int _id){id= _id;};
+  int obtenirNombreDePlaces () const{return nombreDePlaces;}
+  void definirNombreDePlaces(int _nombreDePlaces){nombreDePlaces = _nombreDePlaces;}
+  QString obtenirLabel() const{return label;};
+  void definirLabel(QString _label){label=_label;};
+  int obtenirId() const{return id;};
+  void definirId(int _id){id= _id;};
 
   void print();
 

@@ -18,7 +18,7 @@ GroupeGraphique::GroupeGraphique(QWidget *parent) :
         matriceInteret=findChild<QTableView *>("matrice");
 
     //Récupération du meeting courant
-    Meeting& meeting = Meeting::getInstance();
+    Meeting& meeting = Meeting::obtenirenirInstance();
 
     //Connexion des boutons de cération/suppression
     connect(creerGroupe, SIGNAL(clicked()), this, SLOT(ajouterGroupe()));
@@ -26,11 +26,11 @@ GroupeGraphique::GroupeGraphique(QWidget *parent) :
     connect(supprimerGroupe, SIGNAL(clicked()), this, SLOT(retirerGroupe()));
 
     //Lorsque des groupes sont attirés ou retirés par le Back-office, on appelle les slots pour mettre l'affichage à jour
-    connect(&meeting.obtGroupeManager(), SIGNAL(listeGroupeAjout(QString)), this, SLOT(ajoutGroupe(QString)));
-    connect(&meeting.obtGroupeManager(), SIGNAL(listeGroupeRetrait(QString)), this, SLOT(retraitGroupe(QString)));
+    connect(&meeting.obtenirGroupeManager(), SIGNAL(listeGroupeAjout(QString)), this, SLOT(ajoutGroupe(QString)));
+    connect(&meeting.obtenirGroupeManager(), SIGNAL(listeGroupeRetrait(QString)), this, SLOT(retraitGroupe(QString)));
 
     //On fixe le modèle de la matrice d'interet la classe MatriceInteret est un modèle valable pour une QTableView
-    matriceInteret->setModel(meeting.obtGroupeManager().obtMatriceInteret());
+    matriceInteret->setModel(meeting.obtenirGroupeManager().obtenirMatriceInteret());
 }
 
 GroupeGraphique::~GroupeGraphique()
@@ -52,7 +52,7 @@ void GroupeGraphique::retirerGroupe()
 {
     //On retire de la liste des groupes de groupeManager le groupe dont le nom est actuellement actif dans le menu déroulant des groupes
     if(!listeGroupes->currentText().isEmpty())
-        Meeting::getInstance().obtGroupeManager().retirerGroupe(Meeting::getInstance().obtGroupeManager().obtGroupeParNom(listeGroupes->currentText()));
+        Meeting::obtenirenirInstance().obtenirGroupeManager().retirerGroupe(Meeting::obtenirenirInstance().obtenirGroupeManager().obtenirGroupeParNom(listeGroupes->currentText()));
     //Notons qu'on ne met pas à jour le menu déroulant, qui sera mis à jour par l'émission du signal de suppression par le GroupeManager
 }
 
@@ -74,7 +74,7 @@ void GroupeGraphique::ajouterGroupe()
         try
         {
             //On tente l'ajout d'un groupe
-            Meeting::getInstance().obtGroupeManager().ajouterGroupe(nouveauGroupe->text());
+            Meeting::obtenirenirInstance().obtenirGroupeManager().ajouterGroupe(nouveauGroupe->text());
         }
         catch(int i)
         {

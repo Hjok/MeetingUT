@@ -22,45 +22,45 @@ private:
   int nombreTours;
   // Operations
 public:
-  static Meeting& getInstance(bool create=false);
+  static Meeting& obtenirenirInstance(bool create=false);
 
   //Gestion des individus
   void ajoutIndividu(QString _nom, QList<QString> _groupes);
   void ajoutIndividu(QString _nom, int _id, QList<int>& _groupes);
   void retirerIndividuSupprimes();
   void supprimerIndividu(int _id);
-  int obtIndividuId();
+  int obtenirIndividuId();
   bool idIndividuExiste(int _id);
-  Individu* obtIndividuParId(int _id);
+  Individu* obtenirIndividuParId(int _id);
   void modifierIndividu(int _id, QString _nom, QList<int> _groupes);
 
-  QList<Individu> &obtIndividus();
+  QList<Individu> &obtenirIndividus();
 
   //Gestion des tables
   void ajoutTable(QString _label, int _capacite, int _id);
   void ajoutTable(int _capacite);
   void ajoutTables(int _nombre, int _capacite);
-  const QList<Table> obtTables() const {return tables;};
+  const QList<Table> obtenirTables() const {return tables;};
   void supprimerTable(int _id);
-  int obtTableId();
+  int obtenirTableId();
   bool idTableExiste(int _id);
-  Table* obtTableParId(int _id);
+  Table* obtenirTableParId(int _id);
 
 
 
   void vider();
-  void defNombreTours(int _nombreTours);
-  int obtNombreTours(){return nombreTours;};
+  void definirNombreTours(int _nombreTours);
+  int obtenirNombreTours(){return nombreTours;};
 
   //Le problème comporte-t-il tous les paramètres nécessaires pour générer une solution ?
   bool problemeComplet();
 
   //Gestion solution
   void nouvelleSolution();
-  Solution* obtSolution();
+  Solution* obtenirSolution();
   void solutionConstruite(){emit solutionCree();};
 
-  GroupeManager& obtGroupeManager (){return groupes;};
+  GroupeManager& obtenirGroupeManager (){return groupes;};
 
   //Debug function
   void print();

@@ -15,8 +15,9 @@ private:
   int id;
   // Operations
 public:
-  QString obtNom () const {return nom;};
-  int obtId() const {return id;};
+
+  QString obtenirNom () const {return nom;};
+  int obtenirId() const {return id;};
 
 
   Groupe(QString _nom);

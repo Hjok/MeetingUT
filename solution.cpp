@@ -1,6 +1,6 @@
 #include "Solution.h"
 
-Tour& Solution::obtTour(int _numero)
+Tour& Solution::obtenirTour(int _numero)
 {
     int j=0;
     for (QList<Tour>::iterator i = tours.begin(); i != tours.end(); ++i)
@@ -11,7 +11,7 @@ Tour& Solution::obtTour(int _numero)
     }
     throw 1;
 }
-QString Solution::obtMetaDonneesText()
+QString Solution::obtenirMetaDonneesText()
 {
     QString text=QString();
     for(QMap<QString, QString>::iterator i=metaDonnees.begin(); i!=metaDonnees.end(); ++i)
@@ -23,14 +23,14 @@ QString Solution::obtMetaDonneesText()
     return text;
 }
 /*!
- * obtValeur renvoie la valeur de la solution, qui correspond à la somme des valeur des tours
+ * obtenirValeur renvoie la valeur de la solution, qui correspond à la somme des valeur des tours
  */
-int Solution::obtValeur() const
+int Solution::obtenirValeur() const
 {
     int valeur=0;
     for(int i=0; i<tours.length(); i++)
     {
-        valeur += tours[i].obtValeur();
+        valeur += tours[i].obtenirValeur();
     }
     return valeur;
 }

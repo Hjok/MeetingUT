@@ -7,14 +7,14 @@
  */
 Groupe::Groupe(QString _nom):nom(_nom)
 {
-    id = Meeting::getInstance().obtGroupeManager().obtProcId();
+    id = Meeting::obtenirenirInstance().obtenirGroupeManager().obtenirProcId();
 }
 /*!
  * Constructeur de Groupe avec un nom et un id. Si l'id est déjà utilisé par un autre groupe il throw une erreur.
  */
 Groupe::Groupe(QString _nom, int _id):nom(_nom)
 {
-    if(Meeting::getInstance().obtGroupeManager().idExiste(_id))
+    if(Meeting::obtenirenirInstance().obtenirGroupeManager().idExiste(_id))
         throw 1;
     id=_id;
 }
@@ -24,5 +24,5 @@ Groupe::Groupe(QString _nom, int _id):nom(_nom)
  */
 bool Groupe::operator ==(Groupe _groupe)
 {
-    return id==_groupe.obtId();
+    return id==_groupe.obtenirId();
 }

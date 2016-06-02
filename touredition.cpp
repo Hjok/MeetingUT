@@ -10,9 +10,9 @@ TourEdition::TourEdition(QWidget *parent) :
 
     nombreDeTours = findChild<QLineEdit *>("nombreDeTours");
     validerNombreDeTours = findChild<QPushButton *>("validerNombreTours");
-    nombreDeTours->setText(QString::number(Meeting::getInstance().obtNombreTours()));
+    nombreDeTours->setText(QString::number(Meeting::obtenirenirInstance().obtenirNombreTours()));
 
-    connect(&Meeting::getInstance(), SIGNAL(modifierTours(int)), this, SLOT(nombreToursChange(int)));
+    connect(&Meeting::obtenirenirInstance(), SIGNAL(modifierTours(int)), this, SLOT(nombreToursChange(int)));
     connect(validerNombreDeTours, SIGNAL(clicked()), this, SLOT(changerNombreTours()));
     this->setMaximumHeight(50);
 }
@@ -25,7 +25,7 @@ TourEdition::~TourEdition()
 void TourEdition::changerNombreTours()
 {
     if(!nombreDeTours->text().isEmpty())
-        Meeting::getInstance().defNombreTours(nombreDeTours->text().toInt());
+        Meeting::obtenirenirInstance().definirNombreTours(nombreDeTours->text().toInt());
 }
 void TourEdition::nombreToursChange(int _nombreTours)
 {

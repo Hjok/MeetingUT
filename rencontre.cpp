@@ -2,17 +2,17 @@
 #include "Meeting.h"
 Rencontre::Rencontre(int _table, QList<int> _personnes, int _valeur)
 {
-    table=Meeting::getInstance().obtTableParId(_table);
+    table=Meeting::obtenirenirInstance().obtenirTableParId(_table);
     for(int i=0; i<_personnes.length(); ++i)
     {
-        personnes.append(Meeting::getInstance().obtIndividuParId(_personnes[i]));
+        personnes.append(Meeting::obtenirenirInstance().obtenirIndividuParId(_personnes[i]));
     }
     valeur=_valeur;
 }
 
 bool Rencontre::ajouterPersonne(const Individu *_personne)
 {
-    if(table->obtNombreDePlaces() <= personnes.length())
+    if(table->obtenirNombreDePlaces() <= personnes.length())
         return false;
     personnes.append(_personne);
     return true;
@@ -73,7 +73,7 @@ QVariant Rencontre::data(const QModelIndex &index, int role) const
     {
         if(index.column()==0)
         {
-            return personnes.at(index.row())->obtNom();
+            return personnes.at(index.row())->obtenirNom();
         }
         if(index.column()==1)
         {
@@ -83,7 +83,7 @@ QVariant Rencontre::data(const QModelIndex &index, int role) const
                 //On ne calcule pas l'interet de se rencontrer soi-même
                 if(i!=index.row())
                 {
-                    interet+=personnes.at(index.row())->obtInteretRencontre(personnes.at(i));
+                    interet+=personnes.at(index.row())->obtenirInteretRencontre(personnes.at(i));
                 }
             }
             return interet;

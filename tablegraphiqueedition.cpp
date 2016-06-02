@@ -16,7 +16,7 @@ TableGraphiqueEdition::TableGraphiqueEdition(QWidget *parent) :
     listeTables = findChild<QComboBox*>("listeTables");
     supprimerTables = findChild<QPushButton *>("supprimerTable");
 
-    Meeting& meeting =  Meeting::getInstance();
+    Meeting& meeting =  Meeting::obtenirenirInstance();
 
     connect(ajouterTables, SIGNAL(clicked()), this, SLOT(ajouterNouvellesTables()));
     connect(supprimerTables, SIGNAL(clicked()), this, SLOT(retirerTable()));
@@ -34,7 +34,7 @@ void TableGraphiqueEdition::ajouterNouvellesTables()
 {
     if(!nombreDePlaces->text().isEmpty() && !nombreDeTables->text().isEmpty() && nombreDePlaces->text().toInt() && nombreDeTables->text().toInt())
     {
-        Meeting::getInstance().ajoutTables(nombreDeTables->text().toInt(),nombreDePlaces->text().toInt());
+        Meeting::obtenirenirInstance().ajoutTables(nombreDeTables->text().toInt(),nombreDePlaces->text().toInt());
         nombreDePlaces->setText("places par table");
         nombreDeTables->setText("nombre de tables");
     }
@@ -54,7 +54,7 @@ void TableGraphiqueEdition::retirerTable()
 {
     if(!listeTables->currentData().isNull())
     {
-        Meeting::getInstance().supprimerTable(listeTables->currentData().toInt());
+        Meeting::obtenirenirInstance().supprimerTable(listeTables->currentData().toInt());
     }
 }
 void TableGraphiqueEdition::retraitTable(int _id)

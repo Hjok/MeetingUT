@@ -23,11 +23,11 @@ void Tour::echangerPersonnes(Individu* _personne1, Individu* _personne2)
 }
 void Tour::completerPersonnesNonPlacees()
 {
-    for(int i=0; i<Meeting::getInstance().obtIndividus().length(); ++i)
+    for(int i=0; i<Meeting::obtenirenirInstance().obtenirIndividus().length(); ++i)
     {
-        if(!estRescence(&Meeting::getInstance().obtIndividus().at(i)))
+        if(!estRescence(&Meeting::obtenirenirInstance().obtenirIndividus().at(i)))
         {
-            personnesNonPlacees.append(&Meeting::getInstance().obtIndividus().at(i));
+            personnesNonPlacees.append(&Meeting::obtenirenirInstance().obtenirIndividus().at(i));
         }
     }
 }
@@ -49,7 +49,7 @@ QVariant Tour::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole)
     {
         if(index.row()<personnesNonPlacees.length())
-            return personnesNonPlacees.at(index.row())->obtNom();
+            return personnesNonPlacees.at(index.row())->obtenirNom();
     }
     return QVariant();
 }
@@ -74,10 +74,10 @@ void Tour::print()
 
     for(int i=0; i<rencontres.size(); i++)
     {
-        qDebug() << rencontres[i].obtValeurRencontre();
+        qDebug() << rencontres[i].obtenirValeurRencontre();
     }
 }
-Rencontre& Tour::obtRencontre(int _numero)
+Rencontre& Tour::obtenirRencontre(int _numero)
 {
     int j=0;
     for (QList<Rencontre>::iterator i = rencontres.begin(); i != rencontres.end(); ++i)
@@ -88,10 +88,10 @@ Rencontre& Tour::obtRencontre(int _numero)
     }
     throw 1;
 }
-int Tour::obtValeur() const
+int Tour::obtenirValeur() const
 {
     int valeur=0;
     for(int i=0; i<rencontres.size(); i++)
-        valeur+=rencontres[i].obtValeurRencontre();
+        valeur+=rencontres[i].obtenirValeurRencontre();
     return valeur;
 }

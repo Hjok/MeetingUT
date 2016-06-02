@@ -92,7 +92,7 @@ void FenetrePrincipale::enregistrer(QString _chemin)
                                                   "~/Documents/input.xml",
                                                   tr("XML (*.xml)"));
     //On crée une instance de parseurXml qui gérera l'enregistrement du meeting actuel
-    parseurXml sauvegarde(Meeting::getInstance());
+    ParseurXml sauvegarde(Meeting::obtenirenirInstance());
     sauvegarde.sauveMeeting(_chemin);
 }
 /*!
@@ -102,8 +102,8 @@ void FenetrePrincipale::enregistrer(QString _chemin)
 void FenetrePrincipale::chargerProbleme()
 {
     try{
-        parseurXml charger(Meeting::getInstance());
-        Meeting::getInstance().vider();
+        ParseurXml charger(Meeting::obtenirenirInstance());
+        Meeting::obtenirenirInstance().vider();
 
         QString chemin = QFileDialog::getOpenFileName(this, tr("Ouvrir"),
                                                       "~/Documents/",
@@ -151,7 +151,7 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
         _chemin="/tmp/output.xml";
 
     //Création de l'instance permettant de charger la solution
-    parseurXml charger(Meeting::getInstance());
+    ParseurXml charger(Meeting::obtenirenirInstance());
     try{
     charger.chargeSolution(_chemin);
     }
@@ -184,10 +184,10 @@ void FenetrePrincipale::barreOngletClique(int _index)
     if(_index==1)
     {
         //Si on a suffisament de données pour calculer la solution
-        if(Meeting::getInstance().problemeComplet())
+        if(Meeting::obtenirenirInstance().problemeComplet())
         {
             //Si la solution n'a pas déjà été calculée
-            if(Meeting::getInstance().obtSolution()==NULL)
+            if(Meeting::obtenirenirInstance().obtenirSolution()==NULL)
             {
                 QProcess * process = new QProcess(this);
                 //On enregistre le problème

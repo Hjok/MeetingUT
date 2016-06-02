@@ -22,11 +22,11 @@ public:
   void ajoutRencontre(Rencontre _rencontre){rencontres.append(_rencontre);};
   void ajoutPersonneNonPlacee(Individu* _personne){personnesNonPlacees.append(_personne);};
   void completerPersonnesNonPlacees();
-  QList<const Individu*> obtPersonnesNonPlacees(){return personnesNonPlacees;};
-  void defNumeroTour(int _numero){numero=_numero;};
-  int obtNombreRencontre(){return rencontres.length();};
-  Rencontre &obtRencontre(int _numero);
-  int obtValeur() const;
+  QList<const Individu*> obtenirPersonnesNonPlacees(){return personnesNonPlacees;};
+  void definirNumeroTour(int _numero){numero=_numero;};
+  int obtenirNombreRencontre(){return rencontres.length();};
+  Rencontre &obtenirRencontre(int _numero);
+  int obtenirValeur() const;
 
   int rowCount(const QModelIndex &parent) const{return personnesNonPlacees.length();};
 

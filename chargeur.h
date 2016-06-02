@@ -12,12 +12,12 @@
  *
  * Elle fournit les méthodes abstraites permettant de lire ou d'écrire les données d'un Meeting
  */
-class chargeur
+class Chargeur
 {
 protected:
     Meeting& meeting;
 public:
-    chargeur(Meeting& _meeting);
+    Chargeur(Meeting& _meeting);
     virtual void chargeMeeting(QString _chemin)=0;
     virtual void chargeSolution(QString _chemin)=0;
     virtual void sauveMeeting(QString _chemin)=0;
@@ -27,10 +27,10 @@ public:
  * \brief La classe parseurXml implémente l'interface chargeur pour des fichiers xml
  */
 
-class parseurXml : public chargeur
+class ParseurXml : public Chargeur
 {
 public:
-    parseurXml(Meeting& _meeting);
+    ParseurXml(Meeting& _meeting);
     void chargeMeeting(QString _chemin);
     void chargeSolution(QString _chemin);
     void sauveMeeting(QString _chemin);

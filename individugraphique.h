@@ -10,7 +10,9 @@
 namespace Ui {
 class IndividuGraphique;
 }
-
+/*!
+ * \brief La classe IndividuGraphique
+ */
 class IndividuGraphique : public QWidget
 {
     Q_OBJECT
@@ -20,11 +22,17 @@ public:
     ~IndividuGraphique();
 
 private:
+    /*! Le fichier d'ui */
     Ui::IndividuGraphique *ui;
+    /*! bouton d'ajout d'individu */
     QPushButton* ajouterIndividu;
+    /*! bouton de modification d'individu */
     QPushButton* modifierIndividu;
+    /*! bouton de suppression d'individu */
     QPushButton* supprimerIndividu;
+    /*! menu déroulant d'individus */
     QComboBox* listeIndividus;
+    /*! popup d'édition des individus */
     IndividuEditionGraphique* editionIndividu;
 private slots:
     void suppressionIndividu();

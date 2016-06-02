@@ -23,7 +23,7 @@ public:
 
   bool ajouterPersonne (const Individu* _personne);
   void retirerPersonne (const Individu* _personne);
-  int obtValeurRencontre()const {return valeur;};
+  int obtenirValeurRencontre()const {return valeur;};
   bool contientPersonne(const Individu* _personne);
   void remplacePersonne(const Individu* _personneARemplacer, const Individu* _personneRemplacante);
 
