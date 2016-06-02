@@ -22,3 +22,15 @@ QString Solution::obtMetaDonneesText()
     }
     return text;
 }
+/*!
+ * obtValeur renvoie la valeur de la solution, qui correspond à la somme des valeur des tours
+ */
+int Solution::obtValeur() const
+{
+    int valeur=0;
+    for(int i=0; i<tours.length(); i++)
+    {
+        valeur += tours[i].obtValeur();
+    }
+    return valeur;
+}

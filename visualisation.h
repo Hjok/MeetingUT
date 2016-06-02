@@ -6,6 +6,8 @@
 #include <QHBoxLayout>
 #include <QTableView>
 #include <QListView>
+#include <QLabel>
+#include <QComboBox>
 class Visualisation : public QWidget
 {
     Q_OBJECT
@@ -15,9 +17,19 @@ public:
 private:
     QListView* personnesNonPlacees;
     int numero;
+    /*! Composant contenant l'affichage des répartitions des individus en un tour */
+    QWidget* conteneurTour;
     QWidget* rencontres;
     QList<QTableView *> tableaux;
     QGridLayout* layoutTableaux;
+    /*! Composant affichant la valeur du tour */
+    QLabel* valeurTour;
+    /*! Composant affichant la valeur de la solution */
+    QLabel* valeurSolution;
+    /*! Composant de sélection de tours */
+    QComboBox* listeTours;
+    /*! Valeur indiquant si le composant est prêt pour l'affichage */
+    bool afficher;
 
 signals:
     void metaDonneesChangees(QString metaDonnees="Pas de solution calculée");

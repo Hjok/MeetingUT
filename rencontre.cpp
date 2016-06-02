@@ -88,6 +88,6 @@ QVariant Rencontre::data(const QModelIndex &index, int role) const
             }
             return interet;
         }
-        //Calcul de valeur individuel à implémenter
     }
+    return QVariant();
 }

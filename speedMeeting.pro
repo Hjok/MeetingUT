@@ -11,6 +11,11 @@ TARGET = speedMeeting
 CONFIG += console
 CONFIG -= app_bundle
 
+QMAKE_CFLAGS_WARN_ON -= -Wunused-parameter -Wunused -Wextra
+QMAKE_CXXFLAGS_WARN_ON -= -Wunused-parameter -Wunused -Wextra
+QMAKE_CFLAGS_WARN_OFF += -Wunused-parameter -Wunused -Wextra
+QMAKE_CXXFLAGS_WARN_OFF += -Wunused-parameter -Wunused -Wextra
+
 TEMPLATE = app
 
 SOURCES += main.cpp \

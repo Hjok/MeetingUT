@@ -42,12 +42,13 @@ private:
     TourEdition* editionTour;
     /*! Le composant permettant de sélectionner le tour à visualiser dans l'onglet de visualisation */
     QComboBox* listeTours;
+    /*! Le composant affichant la valeur de la solution dans l'onglet de visualisation */
+    QLabel* valeurSolution;
 private slots:
     void enregistrer(QString _chemin=QString());
     void chargerProbleme();
     void choisirCheminSolution();
     void chargerSolution(QString _chemin=QString());
-    void changeNombreTours(int _nombreTours);
     void barreOngletClique(int _index);
     void changeBarreStatut(QString _texteStatut);
 

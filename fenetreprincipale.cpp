@@ -49,13 +49,6 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
             //Et ajout de la visualisation à la barre d'onglet
             onglets->addTab(visualisation, "Solution");
 
-                //Composant de sélection de tours pour la visualisation de la solution
-                listeTours=new QComboBox();
-                //On limite sa taille pour ne pas qu'il prenne trop de place verticale
-                listeTours->setMaximumHeight(50);
-                //Et on l'ajoute au layout de visualisation
-                visualisation->layout()->addWidget(listeTours);
-
                 //Création du composant d'affichage de tour de la solution
                 Visualisation* afficheSolution=new Visualisation();
                 //Et ajout au layout de visualisation
@@ -76,13 +69,8 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     //Et connexion du signal de changement des métadonnées de la classe d'affichage des tours avec le slot de changement de barre des statuts
     connect(afficheSolution, SIGNAL(metaDonneesChangees(QString)), this, SLOT(changeBarreStatut(QString)));
 
-
-    //Connection du signal de changement du nombre de tours du meeting avec le slot mettant à jour le menu de sélection de tours
-    connect(&Meeting::getInstance(), SIGNAL(modifierTours(int)), this, SLOT(changeNombreTours(int)));
     //Connection du changement d'onglet avec le slot qui gère la génération du problème
     connect(onglets, SIGNAL(currentChanged(int)), this, SLOT(barreOngletClique(int)));
-    //Connexion de la sélection du menu de sélection de tours avec la composant qui affiche le tour afin de mettre ce dernier à jour
-    connect(listeTours, SIGNAL(currentIndexChanged(int)), afficheSolution, SLOT(tourChange(int)));
 
 
 
@@ -186,20 +174,6 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
     }
 }
 
-/*!
- * Slot de changement du nombre de tours du meeting
- */
-void FenetrePrincipale::changeNombreTours(int _nombreTours)
-{
-    //On remet à zéro le menu de changement de tours
-    listeTours->clear();
-    //Et on le remplit avec le nouveau nombre de tours
-    for(int i=1; i<= _nombreTours; i++)
-    {
-        listeTours->addItem("Tour n°" + QString::number(i), i);
-    }
-    //Notons qu'en cas de changement du nombre de tours la solution est détruite avant qu'on appelle ce slot, il n'y a donc pas de risques d'incohérence
-}
 /*!
  * Slot appelé au clici sur l'onglet solution, si aucune solution n'existe et que les données du problème
  * ont été fournies, il lance le calcul de la solution.

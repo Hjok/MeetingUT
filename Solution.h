@@ -15,6 +15,7 @@ public:
     int obtNumeroNouveauTour(){return tours.length();};
     void print(){qDebug()<<tours.length();}
     QString obtMetaDonneesText();
+    int obtValeur() const;
 private:
     QList<Tour> tours;
     QMap<QString, QString> metaDonnees;
