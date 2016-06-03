@@ -16,12 +16,12 @@ TableGraphiqueEdition::TableGraphiqueEdition(QWidget *parent) :
     listeTables = findChild<QComboBox*>("listeTables");
     supprimerTables = findChild<QPushButton *>("supprimerTable");
 
-    Meeting& meeting =  Meeting::obtenirenirInstance();
+    Meeting& meeting =  Meeting::obtenirInstance();
 
     connect(ajouterTables, SIGNAL(clicked()), this, SLOT(ajouterNouvellesTables()));
     connect(supprimerTables, SIGNAL(clicked()), this, SLOT(retirerTable()));
-    connect(&meeting, SIGNAL(tableCree(QString,int,int)), this, SLOT(ajoutTable(QString,int,int)));
-    connect(&meeting, SIGNAL(tableSupprimee(int)), this, SLOT(retraitTable(int)));
+    connect(&meeting.obtenirProbleme(), SIGNAL(tableCree(QString,int,int)), this, SLOT(ajoutTable(QString,int,int)));
+    connect(&meeting.obtenirProbleme(), SIGNAL(tableSupprimee(int)), this, SLOT(retraitTable(int)));
     setMaximumHeight(50);
     setMinimumHeight(50);
 }
@@ -34,7 +34,7 @@ void TableGraphiqueEdition::ajouterNouvellesTables()
 {
     if(!nombreDePlaces->text().isEmpty() && !nombreDeTables->text().isEmpty() && nombreDePlaces->text().toInt() && nombreDeTables->text().toInt())
     {
-        Meeting::obtenirenirInstance().ajoutTables(nombreDeTables->text().toInt(),nombreDePlaces->text().toInt());
+        Meeting::obtenirInstance().obtenirProbleme().ajoutTables(nombreDeTables->text().toInt(),nombreDePlaces->text().toInt());
         nombreDePlaces->setText("places par table");
         nombreDeTables->setText("nombre de tables");
     }
@@ -54,7 +54,7 @@ void TableGraphiqueEdition::retirerTable()
 {
     if(!listeTables->currentData().isNull())
     {
-        Meeting::obtenirenirInstance().supprimerTable(listeTables->currentData().toInt());
+        Meeting::obtenirInstance().obtenirProbleme().supprimerTable(listeTables->currentData().toInt());
     }
 }
 void TableGraphiqueEdition::retraitTable(int _id)

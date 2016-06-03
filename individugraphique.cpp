@@ -12,9 +12,9 @@ IndividuGraphique::IndividuGraphique(QWidget *parent) :
     modifierIndividu = findChild<QPushButton *>("modifierIndividu");
 
     editionIndividu = new IndividuEditionGraphique();
-    Meeting& meeting =  Meeting::obtenirenirInstance();
-    connect(&meeting, SIGNAL(individuCree(QString,int)), this, SLOT(individuAjoute(QString,int)));
-    connect(&meeting, SIGNAL(individuSupprime(int)), this, SLOT(individuSupprime(int)));
+    Meeting& meeting =  Meeting::obtenirInstance();
+    connect(&meeting.obtenirProbleme(), SIGNAL(individuCree(QString,int)), this, SLOT(individuAjoute(QString,int)));
+    connect(&meeting.obtenirProbleme(), SIGNAL(individuSupprime(int)), this, SLOT(individuSupprime(int)));
     connect(supprimerIndividu, SIGNAL(clicked()), this, SLOT(suppressionIndividu()));
     connect(modifierIndividu, SIGNAL(clicked()), this, SLOT(modificationIndividu()));
     connect(ajouterIndividu, SIGNAL(clicked()), this, SLOT(ajoutIndividu()));
@@ -30,7 +30,7 @@ IndividuGraphique::~IndividuGraphique()
 void IndividuGraphique::suppressionIndividu()
 {
     if(!listeIndividus->currentData().isNull())
-        Meeting::obtenirenirInstance().supprimerIndividu(listeIndividus->currentData().toInt());
+        Meeting::obtenirInstance().obtenirProbleme().supprimerIndividu(listeIndividus->currentData().toInt());
 }
 void IndividuGraphique::individuAjoute(QString _name, int _id)
 {

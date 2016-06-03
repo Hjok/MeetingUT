@@ -91,9 +91,13 @@ void FenetrePrincipale::enregistrer(QString _chemin)
     _chemin = QFileDialog::getSaveFileName(this, tr("Enregistrer"),
                                                   "~/Documents/input.xml",
                                                   tr("XML (*.xml)"));
-    //On crée une instance de parseurXml qui gérera l'enregistrement du meeting actuel
-    ParseurXml sauvegarde(Meeting::obtenirenirInstance());
-    sauvegarde.sauveMeeting(_chemin);
+    //Si l'utilisateur a bien rentré un nom
+    if(! _chemin.isEmpty())
+    {
+        //On crée une instance de parseurXml qui gérera l'enregistrement du meeting actuel
+        ParseurXml sauvegarde(Meeting::obtenirInstance());
+        sauvegarde.sauveMeeting(_chemin);
+    }
 }
 /*!
  * Slot de chargement du problème, qui va charger un problème sauvegardé en demandant son emplacement à l'utilisateur
@@ -102,13 +106,16 @@ void FenetrePrincipale::enregistrer(QString _chemin)
 void FenetrePrincipale::chargerProbleme()
 {
     try{
-        ParseurXml charger(Meeting::obtenirenirInstance());
-        Meeting::obtenirenirInstance().vider();
 
         QString chemin = QFileDialog::getOpenFileName(this, tr("Ouvrir"),
                                                       "~/Documents/",
                                                       tr("XML (*.xml)"));
-        charger.chargeMeeting(chemin);
+        if(!chemin.isEmpty())
+        {
+            ParseurXml charger(Meeting::obtenirInstance());
+            Meeting::obtenirInstance().vider();
+            charger.chargeMeeting(chemin);
+        }
     }
     catch(int i)
     {
@@ -134,10 +141,11 @@ void FenetrePrincipale::chargerProbleme()
  */
 void FenetrePrincipale::choisirCheminSolution()
 {
-    QString _chemin= QFileDialog::getOpenFileName(this, tr("Ouvrir"),
+    QString chemin= QFileDialog::getOpenFileName(this, tr("Ouvrir"),
                                                               "~/Documents/",
                                                               tr("XML (*.xml)"));
-    chargerSolution(_chemin);
+    if(!chemin.isEmpty())
+        chargerSolution(chemin);
 }
 /*!
  * Le slot permettant de charger une solution
@@ -151,7 +159,7 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
         _chemin="/tmp/output.xml";
 
     //Création de l'instance permettant de charger la solution
-    ParseurXml charger(Meeting::obtenirenirInstance());
+    ParseurXml charger(Meeting::obtenirInstance());
     try{
     charger.chargeSolution(_chemin);
     }
@@ -184,10 +192,10 @@ void FenetrePrincipale::barreOngletClique(int _index)
     if(_index==1)
     {
         //Si on a suffisament de données pour calculer la solution
-        if(Meeting::obtenirenirInstance().problemeComplet())
+        if(Meeting::obtenirInstance().obtenirProbleme().problemeComplet())
         {
             //Si la solution n'a pas déjà été calculée
-            if(Meeting::obtenirenirInstance().obtenirSolution()==NULL)
+            if(Meeting::obtenirInstance().obtenirSolution().solutionVide())
             {
                 QProcess * process = new QProcess(this);
                 //On enregistre le problème

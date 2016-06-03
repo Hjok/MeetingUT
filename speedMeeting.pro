@@ -35,7 +35,8 @@ SOURCES += main.cpp \
     individugraphique.cpp \
     individueditiongraphique.cpp \
     touredition.cpp \
-    visualisation.cpp
+    visualisation.cpp \
+    instance.cpp
 
 HEADERS += \
     Groupe.h \
@@ -54,7 +55,8 @@ HEADERS += \
     individugraphique.h \
     individueditiongraphique.h \
     touredition.h \
-    visualisation.h
+    visualisation.h \
+    instance.h
 
 FORMS += \
     fenetreprincipale.ui \

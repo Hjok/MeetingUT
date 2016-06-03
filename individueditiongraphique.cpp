@@ -39,7 +39,7 @@ void IndividuEditionGraphique::init(int _id)
     groupes.clear();
 
     //On crée une case à cocher par groupe
-    const QList<Groupe>& listeGroupes = Meeting::obtenirenirInstance().obtenirGroupeManager().obtenirGroupes();
+    const QList<Groupe>& listeGroupes = Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirGroupes();
     for(int i=0; i<listeGroupes.length(); i++)
     {
         groupes.append(new QCheckBox(listeGroupes[i].obtenirNom()));
@@ -57,7 +57,7 @@ void IndividuEditionGraphique::init(int _id)
         //Sinon on remplit les champs avec les valeurs de l'individu
         creation=false;
         //On récupère la personne par son id
-        personne = Meeting::obtenirenirInstance().obtenirIndividuParId(_id);
+        personne = Meeting::obtenirInstance().obtenirProbleme().obtenirIndividuParId(_id);
         //On remplit le champs de nom
         nom->setText(personne->obtenirNom());
         //On parcourt les cases à cocher
@@ -89,7 +89,7 @@ void IndividuEditionGraphique::validation()
     }
     //Si on est en mode création, on crée l'individu
     if(creation)
-        Meeting::obtenirenirInstance().ajoutIndividu(nom->text(), listeGroupes);
+        Meeting::obtenirInstance().obtenirProbleme().ajoutIndividu(nom->text(), listeGroupes);
     else
     {
         //Sinon on met à jour le nom
@@ -100,7 +100,7 @@ void IndividuEditionGraphique::validation()
         for(int i=0; i<groupes.length(); i++)
         {
             if(groupes[i]->isChecked())
-                personne->ajouterGroupe(Meeting::obtenirenirInstance().obtenirGroupeManager().obtenirGroupeParNom(groupes[i]->text()));
+                personne->ajouterGroupe(Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirGroupeParNom(groupes[i]->text()));
         }
     }
     //Enfin on ferme la popup

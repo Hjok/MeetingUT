@@ -152,9 +152,9 @@ void GroupeManager::retirerGroupe (Groupe* _groupe)
     matriceInteret.retirerGroupe(_groupe);
 
     //Retrait de l'appartenance des individus
-    for(int i=0; i<Meeting::obtenirenirInstance().obtenirIndividus().size(); i++)
+    for(int i=0; i<Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus().size(); i++)
     {
-        Meeting::obtenirenirInstance().obtenirIndividus()[i].retirerGroupe(_groupe);
+        Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus()[i].retirerGroupe(_groupe);
     }
     //Envoi du signal de retrait pour l'ui
     emit listeGroupeRetrait(_groupe->obtenirNom());

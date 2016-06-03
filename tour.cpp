@@ -23,11 +23,11 @@ void Tour::echangerPersonnes(Individu* _personne1, Individu* _personne2)
 }
 void Tour::completerPersonnesNonPlacees()
 {
-    for(int i=0; i<Meeting::obtenirenirInstance().obtenirIndividus().length(); ++i)
+    for(int i=0; i<Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus().length(); ++i)
     {
-        if(!estRescence(&Meeting::obtenirenirInstance().obtenirIndividus().at(i)))
+        if(!estRescence(&Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus().at(i)))
         {
-            personnesNonPlacees.append(&Meeting::obtenirenirInstance().obtenirIndividus().at(i));
+            personnesNonPlacees.append(&Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus().at(i));
         }
     }
 }

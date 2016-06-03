@@ -39,8 +39,8 @@ Visualisation::Visualisation(QWidget *parent) : QWidget(parent)
 
     layout()->addWidget(conteneurTour);
 
-    connect(&Meeting::obtenirenirInstance(), SIGNAL(solutionCree()), this, SLOT(solutionAffiche()));
-    connect(&Meeting::obtenirenirInstance(), SIGNAL(solutionSupprimee()), this, SLOT(solutionDesactivee()));
+    connect(&Meeting::obtenirInstance().obtenirSolution(), SIGNAL(solutionCree()), this, SLOT(solutionAffiche()));
+    connect(&Meeting::obtenirInstance().obtenirSolution(), SIGNAL(solutionSupprimee()), this, SLOT(solutionDesactivee()));
 
     //Connexion de la sélection du menu de sélection de tours avec la composant qui affiche le tour afin de mettre ce dernier à jour
     connect(listeTours, SIGNAL(currentIndexChanged(int)), this, SLOT(tourChange(int)));
@@ -48,19 +48,19 @@ Visualisation::Visualisation(QWidget *parent) : QWidget(parent)
 
 void Visualisation::solutionAffiche()
 {
-    if(Meeting::obtenirenirInstance().obtenirSolution())
+    if(!Meeting::obtenirInstance().obtenirSolution().solutionVide())
     {
         //On ajuste la valeur de la solution
-        valeurSolution->setText("Valeur de la solution : " + QString::number(Meeting::obtenirenirInstance().obtenirSolution()->obtenirValeur()));
+        valeurSolution->setText("Valeur de la solution : " + QString::number(Meeting::obtenirInstance().obtenirSolution().obtenirValeur()));
 
         //On initialise le menu de sélection de tours
-        for(int i=1; i<= Meeting::obtenirenirInstance().obtenirNombreTours(); i++)
+        for(int i=1; i<= Meeting::obtenirInstance().obtenirProbleme().obtenirNombreTours(); i++)
         {
             listeTours->addItem("Tour n°" + QString::number(i), i);
         }
 
         QTableView* tableau;
-        for(int i=0; i< Meeting::obtenirenirInstance().obtenirSolution()->obtenirTour(numero).obtenirNombreRencontre(); i++)
+        for(int i=0; i< Meeting::obtenirInstance().obtenirSolution().obtenirTour(numero).obtenirNombreRencontre(); i++)
         {
             tableau=new QTableView();
             tableaux.append(tableau);
@@ -73,25 +73,25 @@ void Visualisation::solutionAffiche()
         afficher=true;
         afficheTour();
 
-        emit metaDonneesChangees(Meeting::obtenirenirInstance().obtenirSolution()->obtenirMetaDonneesText());
+        emit metaDonneesChangees(Meeting::obtenirInstance().obtenirSolution().obtenirMetaDonneesText());
     }
 }
 void Visualisation::tourChange(int _numero)
 {
     numero=_numero;
     //La vérification sur personnes non placées vérifie que tout est bien initialisé
-    if(Meeting::obtenirenirInstance().obtenirSolution() && afficher)
+    if(!Meeting::obtenirInstance().obtenirSolution().solutionVide() && afficher)
         afficheTour();
 }
 void Visualisation::afficheTour()
 {
     //Valeur du tour
-    valeurTour->setText("Valeur du tour : " + QString::number(Meeting::obtenirenirInstance().obtenirSolution()->obtenirTour(numero).obtenirValeur()));
+    valeurTour->setText("Valeur du tour : " + QString::number(Meeting::obtenirInstance().obtenirSolution().obtenirTour(numero).obtenirValeur()));
 
-    personnesNonPlacees->setModel(&Meeting::obtenirenirInstance().obtenirSolution()->obtenirTour(numero));
-    for(int i=0; i<Meeting::obtenirenirInstance().obtenirSolution()->obtenirTour(numero).obtenirNombreRencontre(); i++)
+    personnesNonPlacees->setModel(&Meeting::obtenirInstance().obtenirSolution().obtenirTour(numero));
+    for(int i=0; i<Meeting::obtenirInstance().obtenirSolution().obtenirTour(numero).obtenirNombreRencontre(); i++)
     {
-        tableaux[i]->setModel(&Meeting::obtenirenirInstance().obtenirSolution()->obtenirTour(numero).obtenirRencontre(i));
+        tableaux[i]->setModel(&Meeting::obtenirInstance().obtenirSolution().obtenirTour(numero).obtenirRencontre(i));
     }
 }
 void Visualisation::solutionDesactivee()

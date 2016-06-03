@@ -3,22 +3,43 @@
 #include "QList"
 #include "Tour.h"
 
-class Solution
+/*!
+ * \brief La classe solution décrit une solution a une instance du problème
+ */
+class Solution:public QObject
 {
+    Q_OBJECT
 public:
     Solution(){};
 
+    //Gestion des tours
     void ajoutTour(Tour& _tour){tours.append(_tour);};
-    void definirMetaDonnees(QMap<QString, QString> _metaDonnees){metaDonnees=_metaDonnees;};
-    QMap<QString, QString>& obtenirMetaDonnees(){return metaDonnees;};
     Tour &obtenirTour(int _numero);
     int obtenirNumeroNouveauTour(){return tours.length();};
-    void print(){qDebug()<<tours.length();}
     QString obtenirMetaDonneesText();
+
+    //Gestion des métadonnées
+    void definirMetaDonnees(QMap<QString, QString> _metaDonnees){metaDonnees=_metaDonnees;};
+    QMap<QString, QString>& obtenirMetaDonnees(){return metaDonnees;};
+
     int obtenirValeur() const;
+
+
+
+    void print(){qDebug()<<tours.length();}
+
+    void solutionConstruite();
+    bool solutionVide(){return tours.isEmpty();};
 private:
+    /*! Liste contenant les tours de la solution */
     QList<Tour> tours;
+    /*! Map contenant les données relatives au calcul de la solution */
     QMap<QString, QString> metaDonnees;
+signals:
+    void solutionCree();
+    void solutionSupprimee();
+public slots:
+    void vider();
 
 };
 

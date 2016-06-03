@@ -34,3 +34,16 @@ int Solution::obtenirValeur() const
     }
     return valeur;
 }
+/*!
+ * \brief Solution::vider remet à zéro une solution
+ */
+void Solution::vider()
+{
+    emit solutionSupprimee();
+    tours.clear();
+    metaDonnees.clear();
+}
+void Solution::solutionConstruite()
+{
+    emit solutionCree();
+}

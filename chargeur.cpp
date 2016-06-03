@@ -67,7 +67,7 @@ void ParseurXml::chargeMeeting(QString _chemin)
                 //Récupération du nombre de tours
                 if(currentDataListElement.tagName() == "tourNumber")
                 {
-                    meeting.definirNombreTours(currentDataListElement.text().toInt());
+                    Meeting::obtenirInstance().obtenirProbleme().definirNombreTours(currentDataListElement.text().toInt());
                 }
                 if(currentDataListElement.tagName() == "tableList")
                 {
@@ -102,7 +102,7 @@ void ParseurXml::chargeMeeting(QString _chemin)
 
                             if(!idTable.isEmpty() && !labelTable.isEmpty() && !capaciteTable.isEmpty())
                             {
-                                meeting.ajoutTable(labelTable, capaciteTable.toInt(), idTable.toInt());
+                                Meeting::obtenirInstance().obtenirProbleme().ajoutTable(labelTable, capaciteTable.toInt(), idTable.toInt());
                                 idTable=QString();
                                 labelTable=QString();
                                 capaciteTable=QString();
@@ -172,13 +172,13 @@ void ParseurXml::chargeMeeting(QString _chemin)
 
                     if(!idGroupe.isEmpty() && !nomGroupe.isEmpty() && !interetsGroupes[idGroupe.toInt()].isEmpty())
                     {
-                        meeting.obtenirGroupeManager().ajouterGroupe(nomGroupe, idGroupe.toInt());
+                        Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().ajouterGroupe(nomGroupe, idGroupe.toInt());
                         nomGroupe=QString();
                         idGroupe=QString();
                     }
                 }
             }
-            meeting.obtenirGroupeManager().definirMatriceInteret(interetsGroupes);
+            Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().definirMatriceInteret(interetsGroupes);
         }
         if(currentElement.tagName() == "personList")
         {
@@ -223,7 +223,7 @@ void ParseurXml::chargeMeeting(QString _chemin)
 
                     if(!idIndividu.isEmpty() && !nomIndividu.isEmpty() && !groupesIndividu.empty())
                     {
-                        meeting.ajoutIndividu(nomIndividu, idIndividu.toInt(), groupesIndividu);
+                        Meeting::obtenirInstance().obtenirProbleme().ajoutIndividu(nomIndividu, idIndividu.toInt(), groupesIndividu);
                         idIndividu=QString();
                         nomIndividu=QString();
                         groupesIndividu.clear();
@@ -254,8 +254,7 @@ void ParseurXml::chargeSolution(QString _chemin)
         }
     }
 
-    meeting.nouvelleSolution();
-    meeting.obtenirSolution()->print();
+    Meeting::obtenirInstance().obtenirSolution().print();
 
     //Variables temporaires pour les rencontres
     QString tableRencontre;
@@ -347,8 +346,8 @@ void ParseurXml::chargeSolution(QString _chemin)
 
                     nouveauTour.completerPersonnesNonPlacees();
 
-                    nouveauTour.definirNumeroTour(meeting.obtenirSolution()->obtenirNumeroNouveauTour());
-                    meeting.obtenirSolution()->ajoutTour(nouveauTour);
+                    nouveauTour.definirNumeroTour(Meeting::obtenirInstance().obtenirSolution().obtenirNumeroNouveauTour());
+                    Meeting::obtenirInstance().obtenirSolution().ajoutTour(nouveauTour);
                 }
             }
 
@@ -384,7 +383,7 @@ void ParseurXml::chargeSolution(QString _chemin)
                     }
                     if(!cleMetaDonnees.isEmpty() && ! valeurMetaDonnees.isEmpty())
                     {
-                        Meeting::obtenirenirInstance().obtenirSolution()->obtenirMetaDonnees()[cleMetaDonnees]=valeurMetaDonnees;
+                        Meeting::obtenirInstance().obtenirSolution().obtenirMetaDonnees()[cleMetaDonnees]=valeurMetaDonnees;
                         cleMetaDonnees=QString();
                         valeurMetaDonnees=QString();
                     }
@@ -392,7 +391,7 @@ void ParseurXml::chargeSolution(QString _chemin)
             }
         }
     }
-    meeting.solutionConstruite();
+    Meeting::obtenirInstance().obtenirSolution().solutionConstruite();
 }
 void ParseurXml::sauveMeeting(QString _chemin)
 {
@@ -409,15 +408,15 @@ void ParseurXml::sauveMeeting(QString _chemin)
 
 
     xmlWriter.writeStartElement("dataList");
-    xmlWriter.writeTextElement("tourNumber", QString::number(meeting.obtenirNombreTours()));
+    xmlWriter.writeTextElement("tourNumber", QString::number(Meeting::obtenirInstance().obtenirProbleme().obtenirNombreTours()));
     xmlWriter.writeStartElement("tableList");
     //Liste des tables
-    for(int i=0; i<meeting.obtenirTables().length(); i++)
+    for(int i=0; i<Meeting::obtenirInstance().obtenirProbleme().obtenirTables().length(); i++)
     {
         xmlWriter.writeStartElement("table");
-        xmlWriter.writeTextElement("id", QString::number(meeting.obtenirTables().at(i).obtenirId()));
-        xmlWriter.writeTextElement("label", meeting.obtenirTables().at(i).obtenirLabel());
-        xmlWriter.writeTextElement("capacity", QString::number(meeting.obtenirTables().at(i).obtenirNombreDePlaces()));
+        xmlWriter.writeTextElement("id", QString::number(Meeting::obtenirInstance().obtenirProbleme().obtenirTables().at(i).obtenirId()));
+        xmlWriter.writeTextElement("label", Meeting::obtenirInstance().obtenirProbleme().obtenirTables().at(i).obtenirLabel());
+        xmlWriter.writeTextElement("capacity", QString::number(Meeting::obtenirInstance().obtenirProbleme().obtenirTables().at(i).obtenirNombreDePlaces()));
         xmlWriter.writeEndElement();
     }
     //End tableList
@@ -427,13 +426,13 @@ void ParseurXml::sauveMeeting(QString _chemin)
 
     xmlWriter.writeStartElement("groupList");
 
-    for(int i=0; i<meeting.obtenirGroupeManager().obtenirGroupes().length(); i++)
+    for(int i=0; i<Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirGroupes().length(); i++)
     {
         xmlWriter.writeStartElement("group");
-        xmlWriter.writeTextElement("id", QString::number(meeting.obtenirGroupeManager().obtenirGroupes().at(i).obtenirId()));
-        xmlWriter.writeTextElement("name", meeting.obtenirGroupeManager().obtenirGroupes().at(i).obtenirNom());
+        xmlWriter.writeTextElement("id", QString::number(Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirGroupes().at(i).obtenirId()));
+        xmlWriter.writeTextElement("name", Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirGroupes().at(i).obtenirNom());
         xmlWriter.writeStartElement("interestList");
-        interets=meeting.obtenirGroupeManager().obtenirListeInteretIds(&(meeting.obtenirGroupeManager().obtenirGroupes().at(i)));
+        interets=Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirListeInteretIds(&(Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirGroupes().at(i)));
         for(j=interets.begin(); j!= interets.end(); ++j)
         {
             xmlWriter.writeStartElement("interest");
@@ -451,15 +450,15 @@ void ParseurXml::sauveMeeting(QString _chemin)
 
 
     xmlWriter.writeStartElement("personList");
-    for(int i=0; i<meeting.obtenirIndividus().length(); i++)
+    for(int i=0; i<Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus().length(); i++)
     {
         xmlWriter.writeStartElement("person");
-        xmlWriter.writeTextElement("id", QString::number(meeting.obtenirIndividus()[i].obtenirId()));
-        xmlWriter.writeTextElement("name", meeting.obtenirIndividus()[i].obtenirNom());
+        xmlWriter.writeTextElement("id", QString::number(Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus()[i].obtenirId()));
+        xmlWriter.writeTextElement("name", Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus()[i].obtenirNom());
         xmlWriter.writeStartElement("groupList");
-        for(int k=0; k<meeting.obtenirIndividus()[i].obtenirGroupes().length(); k++)
+        for(int k=0; k<Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus()[i].obtenirGroupes().length(); k++)
         {
-            xmlWriter.writeTextElement("group", QString::number(meeting.obtenirIndividus()[i].obtenirGroupes()[k]->obtenirId()));
+            xmlWriter.writeTextElement("group", QString::number(Meeting::obtenirInstance().obtenirProbleme().obtenirIndividus()[i].obtenirGroupes()[k]->obtenirId()));
         }
         xmlWriter.writeEndElement();
         xmlWriter.writeEndElement();

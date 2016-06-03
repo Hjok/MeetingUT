@@ -9,7 +9,7 @@
  */
 Individu::Individu(QString _nom, int _id):nom(_nom)
 {
-    if(Meeting::obtenirenirInstance().idIndividuExiste(_id))
+    if(Meeting::obtenirInstance().obtenirProbleme().idIndividuExiste(_id))
         throw 1;
     id=_id;
 }
@@ -20,7 +20,7 @@ Individu::Individu(QString _nom, int _id):nom(_nom)
  */
 Individu::Individu(QString _nom, QList<Groupe*> _groupes):nom(_nom), groupes(_groupes)
 {
-    id=Meeting::obtenirenirInstance().obtenirIndividuId();
+    id=Meeting::obtenirInstance().obtenirProbleme().obtenirIndividuId();
 }
 void Individu::print()
 {
@@ -57,7 +57,7 @@ int Individu::obtenirInteretRencontre(const Individu *_personneRencontree) const
         //On somme les interet du groupe à tous ceux auxquels appartient la personne rencontrée
         for(int j=0; j<_personneRencontree->groupes.length(); j++)
         {
-            interet+=Meeting::obtenirenirInstance().obtenirGroupeManager().obtenirInteret(groupes[i], _personneRencontree->groupes[j]);
+            interet+=Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirInteret(groupes[i], _personneRencontree->groupes[j]);
         }
     }
     return interet;
