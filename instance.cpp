@@ -234,6 +234,15 @@ void Instance::definirNombreTours(int _nombreTours)
 void Instance::vider()
 {
     emit supprimerSolution();
+    //On signale leur supression à l'interface
+    for(int i=0; i<participants.length(); i++)
+    {
+        emit individuSupprime(participants[i].obtenirId());
+    }
+    for(int i=0; i<tables.length(); i++)
+    {
+        emit tableSupprimee(tables[i].obtenirId());
+    }
     participants.clear();
     tables.clear();
     groupes.vider();

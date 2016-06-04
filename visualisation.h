@@ -8,6 +8,9 @@
 #include <QListView>
 #include <QLabel>
 #include <QComboBox>
+/*!
+ * \brief La classe Visualisation permet d'afficher la solution
+ */
 class Visualisation : public QWidget
 {
     Q_OBJECT

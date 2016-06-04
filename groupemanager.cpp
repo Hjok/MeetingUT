@@ -201,5 +201,10 @@ void GroupeManager::definirMatriceInteret(QMap<int, QMap<int, int>>& _matriceIds
 void GroupeManager::vider()
 {
     matriceInteret.obtenirMatrice().clear();
+    //On signale la supression des groupes
+    for(int i=0; i<groupes.length(); i++)
+    {
+        emit listeGroupeRetrait(groupes[i].obtenirNom());
+    }
     groupes.clear();
 }

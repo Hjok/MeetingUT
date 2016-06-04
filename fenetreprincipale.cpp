@@ -113,7 +113,6 @@ void FenetrePrincipale::chargerProbleme()
         if(!chemin.isEmpty())
         {
             ParseurXml charger(Meeting::obtenirInstance());
-            Meeting::obtenirInstance().vider();
             charger.chargeMeeting(chemin);
         }
     }

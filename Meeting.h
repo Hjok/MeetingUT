@@ -9,21 +9,24 @@
 #include "instance.h"
 #include <QList>
 
-/// class Meeting - 
+/*!
+ * \brief La classe Meeting est un singleton qui gère les l'instance du problème et sa solution.
+ */
 class Meeting:public QObject {
     Q_OBJECT
   // Attributes
 private:
   static Meeting* instance;
-
+  /*! L'instance du problème */
   Instance probleme;
+  /*! La solution proposée */
   Solution solution;
   // Operations
 public:
   static Meeting& obtenirInstance(bool create=false);
 
   void vider();
-  Instance& obtenirProbleme(){return probleme;}
+  Instance& obtenirProbleme();
 
   //Gestion solution
   void nouvelleSolution();

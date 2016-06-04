@@ -2,19 +2,24 @@
 #define TABLE
 #include <QString>
 
-/// class Table - 
+/*!
+ * \brief La classe Table représente une table
+ */
 class Table {
   // Attributes
 private:
+    /*! Le nom de la table */
   QString label;
+  /*! La capacité de la table */
   unsigned int nombreDePlaces;
+  /*! l'identifiant unique de la table */
   int id;
 
-  //struct informationsGraphiques;
   // Operations
 public:
   Table(QString _label, int _nombreDePlaces, int _id);
   Table(QString _label, int _nombreDePlaces);
+
   int obtenirNombreDePlaces () const{return nombreDePlaces;}
   void definirNombreDePlaces(int _nombreDePlaces){nombreDePlaces = _nombreDePlaces;}
   QString obtenirLabel() const{return label;};

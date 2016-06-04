@@ -13,6 +13,9 @@ ParseurXml::ParseurXml(Meeting &_meeting) : Chargeur(_meeting)
 
 void ParseurXml::chargeMeeting(QString _chemin)
 {
+    //D'abord on vide l'instance courante
+    Meeting::obtenirInstance().vider();
+
     //Variables tempiraires pour la création des tables
     QString idTable;
     QString labelTable;
@@ -335,7 +338,7 @@ void ParseurXml::chargeSolution(QString _chemin)
                                 }
                                 if(!tableRencontre.isEmpty() && !valeurRencontre.isEmpty() && ! personnesRencontre.empty())
                                 {
-                                    nouveauTour.ajoutRencontre(Rencontre(tableRencontre.toInt(),personnesRencontre, valeurRencontre.toInt()));
+                                    nouveauTour.ajouterRencontre(Rencontre(tableRencontre.toInt(),personnesRencontre, valeurRencontre.toInt()));
                                     personnesRencontre.clear();
                                     tableRencontre=QString();
                                     valeurRencontre=QString();
