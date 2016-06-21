@@ -10,6 +10,7 @@
 #include <touredition.h>
 #include <QComboBox>
 #include <QLabel>
+#include <visualisation.h>
 
 namespace Ui {
 class FenetrePrincipale;
@@ -40,10 +41,8 @@ private:
     IndividuGraphique* editionIndividus;
     /*! Le composant d'édition du nombre de tour, contenu dans l'onglet d'édition */
     TourEdition* editionTour;
-    /*! Le composant permettant de sélectionner le tour à visualiser dans l'onglet de visualisation */
-    QComboBox* listeTours;
-    /*! Le composant affichant la valeur de la solution dans l'onglet de visualisation */
-    QLabel* valeurSolution;
+    /*! Le composant de visualisation de la solution */
+    Visualisation* afficheSolution;
 private slots:
     void enregistrer(QString _chemin=QString());
     void chargerProbleme();

@@ -50,7 +50,7 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
             onglets->addTab(visualisation, "Solution");
 
                 //Création du composant d'affichage de tour de la solution
-                Visualisation* afficheSolution=new Visualisation();
+                afficheSolution=new Visualisation();
                 //Et ajout au layout de visualisation
                 visualisation->layout()->addWidget(afficheSolution);
 
