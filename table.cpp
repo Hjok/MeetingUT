@@ -21,7 +21,3 @@ Table::Table(QString _label, int _nombreDePlaces):label(_label), nombreDePlaces(
 {
     id=Meeting::obtenirInstance().obtenirProbleme().obtenirTableId();
 }
-void Table::print()
-{
-    qDebug() << label << id << " / " << nombreDePlaces;
-}

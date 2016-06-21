@@ -35,7 +35,6 @@ public:
 
   void definirNom(QString _nom){nom=_nom;};
 
-  void print();
 };
 
 #endif

@@ -25,11 +25,10 @@ public:
     int obtenirValeur() const;
 
 
-
-    void print(){qDebug()<<tours.length();}
-
     void solutionConstruite();
-    bool solutionVide(){return tours.isEmpty();};
+    bool solutionVide() const{return tours.isEmpty();};
+
+
 private:
     /*! Liste contenant les tours de la solution */
     QList<Tour> tours;

@@ -239,6 +239,8 @@ void ParseurXml::chargeMeeting(QString _chemin)
 }
 void ParseurXml::chargeSolution(QString _chemin)
 {
+    //On vide la solution courante
+    Meeting::obtenirInstance().obtenirSolution().vider();
     //Création du document
     QDomDocument document;
     //Chargement du fichier XML
@@ -256,8 +258,6 @@ void ParseurXml::chargeSolution(QString _chemin)
             throw 0;
         }
     }
-
-    Meeting::obtenirInstance().obtenirSolution().print();
 
     //Variables temporaires pour les rencontres
     QString tableRencontre;
@@ -288,21 +288,19 @@ void ParseurXml::chargeSolution(QString _chemin)
                 if(currentTourListElement.tagName() == "tour")
                 {
                     nouveauTour=Tour();
-                    //QDomNode tour = document.elementsByTagName("tour").at(0);
                     QDomNodeList tourNode = currentTourListElement.childNodes();
                     for(int i = 0 ; i < tourNode.size() ; i++)
                     {
                         QDomNode nodeTour = tourNode.at(i);
-                        /*QDomElement currentTourElement = nodeTour.toElement();
+                        QDomElement currentTourElement = nodeTour.toElement();
                         if(currentTourElement.tagName() == "tableList")
-                        {*/
-                            //QDomNode tableList = document.elementsByTagName("tableList").at(0);
-
-                            /*QDomNodeList tableListNode =nodeTour.childNodes();
+                        {
+                            QDomNode tableList = currentTourElement;
+                            QDomNodeList tableListNode = tableList.childNodes();
                             for(int i = 0 ; i < tableListNode.size() ; i++)
                             {
-                                QDomNode nodeTableList = tableListNode.at(i);*/
-                                QDomElement currentTableListElement = nodeTour.toElement();
+                                QDomNode nodeTableList = tableListNode.at(i);
+                                QDomElement currentTableListElement = nodeTableList.toElement();
                                 if(currentTableListElement.tagName() == "table")
                                 {
                                     QDomNode table = currentTableListElement.firstChild();
@@ -343,12 +341,11 @@ void ParseurXml::chargeSolution(QString _chemin)
                                     tableRencontre=QString();
                                     valeurRencontre=QString();
                                 }
-                            //}
-                        //}
+                            }
+                        }
                     }
 
                     nouveauTour.completerPersonnesNonPlacees();
-
                     nouveauTour.definirNumeroTour(Meeting::obtenirInstance().obtenirSolution().obtenirNumeroNouveauTour());
                     Meeting::obtenirInstance().obtenirSolution().ajoutTour(nouveauTour);
                 }

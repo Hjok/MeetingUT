@@ -139,4 +139,3 @@ QVariant Tour::headerData(int section, Qt::Orientation orientation, int role) co
     }
     return QVariant();
 }
-

@@ -257,18 +257,3 @@ bool Instance::problemeComplet()
         return true;
     return false;
 }
-
-void Instance::print()
-{
-    groupes.print();
-    qDebug() << "Liste des personnes : ";
-    qDebug() << "Nombre de tours : " << nombreTours;
-    for(int i =0; i< participants.size(); i++)
-    {
-        participants[i].print();
-    }
-    for(int i =0; i< tables.size(); i++)
-    {
-        tables[i].print();
-    }
-}

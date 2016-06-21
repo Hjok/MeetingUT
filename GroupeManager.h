@@ -42,7 +42,6 @@ public:
 
 
   void vider();
-  void print();
 
 private:
   void initInterets(const Groupe *_groupeAInit);

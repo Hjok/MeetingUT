@@ -52,8 +52,6 @@ public:
 
     void vider();
 
-    //Debug function
-    void print();
 
   signals:
     void tableCree(QString _label, int _id, int _capacite);

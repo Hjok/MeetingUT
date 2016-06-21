@@ -22,17 +22,6 @@ Individu::Individu(QString _nom, QList<Groupe*> _groupes):nom(_nom), groupes(_gr
 {
     id=Meeting::obtenirInstance().obtenirProbleme().obtenirIndividuId();
 }
-void Individu::print()
-{
-    qDebug() << obtenirNom();
-    qDebug() <<  id;
-    QString grou =  "Liste de groupes : ";
-    for(int i=0; i<groupes.size(); i++)
-    {
-        grou = grou + groupes[i]->obtenirNom() + " / ";
-    }
-    qDebug()<<grou;
-}
 /*!
  * \brief Individu::retirerGroupe retire un groupe de la liste de la personne
  * \param _groupe un pointeur sur le groupe à retirer

@@ -82,28 +82,6 @@ void GroupeManager::definirInteret (const Groupe* _g1, const Groupe* _g2, unsign
 {
     matriceInteret.definirInteret(_g1, _g2, _interet);
 }
-void GroupeManager::print()
-{
-    qDebug() << "Liste de groupes : ";
-    for(int i=0; i<groupes.size(); i++)
-    {
-        qDebug() << groupes[i].obtenirNom();
-    }
-
-    qDebug() << "Matrice d'interet : ";
-    QMap<const Groupe*, QMap<const Groupe*, int>>::iterator i;
-    QMap<const Groupe*, int>::iterator j;
-
-    for(i=matriceInteret.obtenirMatrice().begin(); i!= matriceInteret.obtenirMatrice().end(); ++i)
-    {
-        qDebug() << "Pour le groupe : " << i.key()->obtenirId();
-        for(j=i.value().begin(); j!= i.value().end(); ++j)
-        {
-            qDebug() << j.key()->obtenirId() << " = " << j.value();
-        }
-    }
-
-}
 /*!
  * \brief GroupeManager::obtenirListeInteretIds retourne les interet qu'un groupe trouve chez les les autres
  * \param _groupe

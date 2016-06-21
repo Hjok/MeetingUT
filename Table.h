@@ -27,8 +27,6 @@ public:
   int obtenirId() const{return id;};
   void definirId(int _id){id= _id;};
 
-  void print();
-
 
 
 };

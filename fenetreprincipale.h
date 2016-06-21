@@ -43,6 +43,8 @@ private:
     TourEdition* editionTour;
     /*! Le composant de visualisation de la solution */
     Visualisation* afficheSolution;
+    /*! Le composant permettant de lancer le calcul des tours */
+    QPushButton* calculerSolution;
 private slots:
     void enregistrer(QString _chemin=QString());
     void chargerProbleme();
@@ -50,6 +52,8 @@ private slots:
     void chargerSolution(QString _chemin=QString());
     void barreOngletClique(int _index);
     void changeBarreStatut(QString _texteStatut);
+    void calculSolution();
+    void activerBoutonCalcul();
 
 };
 

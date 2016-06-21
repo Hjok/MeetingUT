@@ -20,7 +20,7 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
 
     //Initialisation du composant d'onglets
     onglets = new QTabWidget();
-    //Et ajout au layout principal, qu'il occupera seul
+    //Et ajout au layout principal, qu'il occupera seul avec le bouton de calcul de la solution
     ui->centralwidget->layout()->addWidget(onglets);
 
         //Création de l'onglet d'édition
@@ -54,6 +54,13 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
                 //Et ajout au layout de visualisation
                 visualisation->layout()->addWidget(afficheSolution);
 
+    //Initialisation du bouton de lancement du calcul de la solution
+    calculerSolution=new QPushButton();
+    calculerSolution->setText("Lancer le calcul de la solution");
+    calculerSolution->setMaximumWidth(200);
+    //Et ajout au layout principal
+    ui->centralwidget->layout()->addWidget(calculerSolution);
+
 
 
     //Connection des signaux du menu aux slots correspondant, pour le chargement/enregistrement
@@ -72,6 +79,13 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     //Connection du changement d'onglet avec le slot qui gère la génération du problème
     connect(onglets, SIGNAL(currentChanged(int)), this, SLOT(barreOngletClique(int)));
 
+    //Connection du bouton de lancement de calcul de la solution
+    connect(calculerSolution, SIGNAL(clicked()), this, SLOT(calculSolution()));
+
+    //Connection des signaux signalant une désynchronisation du problème et de la solution
+    connect(&Meeting::obtenirInstance().obtenirProbleme(), SIGNAL(tableCree(QString,int,int)), this, SLOT(activerBoutonCalcul()));
+    connect(&Meeting::obtenirInstance().obtenirProbleme(), SIGNAL(individuCree(QString,int)), this, SLOT(activerBoutonCalcul()));
+    connect(&Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager(), SIGNAL(listeGroupeAjout(QString)), this, SLOT(activerBoutonCalcul()));
 
 
 }
@@ -159,8 +173,13 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
 
     //Création de l'instance permettant de charger la solution
     ParseurXml charger(Meeting::obtenirInstance());
-    try{
-    charger.chargeSolution(_chemin);
+    try
+    {
+        charger.chargeSolution(_chemin);
+        //On affiche la solution
+        onglets->setCurrentIndex(1);
+        //On désactive le boutton de calcul de la solution, la solution correspond à présent au problème
+        calculerSolution->setEnabled(false);
     }
     catch(int i)
     {
@@ -180,41 +199,69 @@ void FenetrePrincipale::chargerSolution(QString _chemin)
         }
     }
 }
+/*!
+ * \brief FenetrePrincipale::calculSolution lance le calcul de la solution
+ * Elle vérifie que les données sont complètes avant de lancer le calcul
+ */
+void FenetrePrincipale::calculSolution()
+{
+    //Si on a suffisament de données pour calculer la solution
+    if(Meeting::obtenirInstance().obtenirProbleme().problemeComplet())
+    {
+        QProcess * process = new QProcess(this);
+        //On enregistre le problème
+        enregistrer("/tmp/input.xml");
+        //On connecte la fin du calcul et le chargement de la solution, ainsi à la fin du calcul la solution sera immédiatement lue
+        connect(process, SIGNAL(finished(int)), this, SLOT(chargerSolution()));
+        //Et on lance le calcul
+        process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
+    }
+    //Sinon on revient sur l'onglet d'édition du problème et on lance une erreur
+    else
+    {
+        onglets->setCurrentIndex(0);
+        QMessageBox messageBox;
+        messageBox.critical(0,"Erreur","Il manque des données pour pouvoir traiter le problème");
+        messageBox.setFixedSize(500,200);
+    }
+
+}
 
 /*!
- * Slot appelé au clici sur l'onglet solution, si aucune solution n'existe et que les données du problème
- * ont été fournies, il lance le calcul de la solution.
+ * Slot appelé au clic sur l'onglet solution, si aucune solution n'existe, il lance le calcul de la solution.
  */
 void FenetrePrincipale::barreOngletClique(int _index)
 {
     //Si l'onglet solution a été sélectionné
     if(_index==1)
     {
-        //Si on a suffisament de données pour calculer la solution
-        if(Meeting::obtenirInstance().obtenirProbleme().problemeComplet())
+        //Si la solution n'a pas déjà été calculée
+        if(Meeting::obtenirInstance().obtenirSolution().solutionVide())
         {
-            //Si la solution n'a pas déjà été calculée
-            if(Meeting::obtenirInstance().obtenirSolution().solutionVide())
+            //On demande à l'utilisateur de confirmer le lancement du calcul
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, "Confirmations", "Lancer le calcul de la solution ?", QMessageBox::Yes|QMessageBox::No);
+            //Si l'utilisateur confirme
+            if (reply == QMessageBox::Yes)
             {
-                QProcess * process = new QProcess(this);
-                //On enregistre le problème
-                enregistrer("/tmp/input.xml");
-                //On connecte la fin du calcul et le chargement de la solution, ainsi à la fin du calcul la solution sera immédiatement lue
-                connect(process, SIGNAL(finished(int)), this, SLOT(chargerSolution()));
-                //Et on lance le calcul
-                process->start("SpeedMeetingSolver /tmp/input.xml /tmp/output.xml");
+                calculSolution();
             }
-        }
-        //Sinon on revient sur l'onglet d'édition du problème et on lance une erreur
-        else
-        {
-            onglets->setCurrentIndex(0);
-            QMessageBox messageBox;
-            messageBox.critical(0,"Erreur","Il manque des données pour pouvoir traiter le problème");
-            messageBox.setFixedSize(500,200);
+            //Sinon, on revient sur l'onglet d'édition du problème
+            else
+            {
+                onglets->setCurrentIndex(0);
+            }
         }
     }
 }
+/*!
+ * \brief FenetrePrincipale::activerBoutonCalcul active le boutton de calcul de la solution
+ */
+void FenetrePrincipale::activerBoutonCalcul()
+{
+    calculerSolution->setEnabled(true);
+}
+
 /*!
  * Slot permettant d'inscrire un texte dans la barre de statut
  */

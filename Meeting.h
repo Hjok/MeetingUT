@@ -32,8 +32,6 @@ public:
   void nouvelleSolution();
   Solution &obtenirSolution();
 
-  //Debug function
-  void print();
 private:
   Meeting();
   ~Meeting(){};
