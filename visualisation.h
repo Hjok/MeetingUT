@@ -43,6 +43,7 @@ private slots:
     void tourChange(int _numero);
     void afficheTour();
     void solutionDesactivee();
+    void valeurSolutionChangee();
 
 };
 

@@ -6,7 +6,7 @@
  * \param _personnes la liste des ids des personnes
  * \param _valeur la valeur de la rencontre
  */
-Rencontre::Rencontre(int _table, QList<int> _personnes, int _valeur)
+Rencontre::Rencontre(int _table, QList<int> _personnes)
 {
     //On récupère la table
     table=Meeting::obtenirInstance().obtenirProbleme().obtenirTableParId(_table);
@@ -16,8 +16,6 @@ Rencontre::Rencontre(int _table, QList<int> _personnes, int _valeur)
         if(Meeting::obtenirInstance().obtenirProbleme().obtenirIndividuParId(_personnes[i]))
             personnes.append(Meeting::obtenirInstance().obtenirProbleme().obtenirIndividuParId(_personnes[i]));
     }
-    //On ajuste la valeur
-    valeur=_valeur;
 }
 /*!
  * \brief Rencontre::ajouterPersonne ajoute une personne à une rencontre
@@ -70,7 +68,6 @@ void Rencontre::remplacePersonne(const Individu* _personneARemplacer, const Indi
 Rencontre& Rencontre::operator =(const Rencontre& _rencontre)
 {
     this->personnes=_rencontre.personnes;
-    this->valeur=_rencontre.valeur;
     this->table=_rencontre.table;
     return (*this);
 }
@@ -145,4 +142,27 @@ QVariant Rencontre::data(const QModelIndex &index, int role) const
         }
     }
     return QVariant();
+}
+/*!
+ * \brief Rencontre::obtenirValeurRencontre calcule la valeur de la rencontre
+ * \return la valeur de la rencontre
+ */
+int Rencontre::obtenirValeurRencontre() const
+{
+    int valeur=0;
+    //Pour chaque individu
+    for(int i=0; i<personnes.length(); i++)
+    {
+        //Pour chaque autre individu
+        for(int j=0; j<personnes.length(); j++)
+        {
+            //On ne calcule pas la valeur de la rencontre avec soi-même !
+            if(i != j)
+            {
+                //On somme foutredieu !
+                valeur += personnes[i]->obtenirInteretRencontre(personnes[j]);
+            }
+        }
+    }
+    return valeur;
 }

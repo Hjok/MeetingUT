@@ -25,8 +25,8 @@ public:
 
   //Gestion des groupes
   void retirerGroupe(Groupe* _groupe);
-  void retirerGroupes(){groupes.clear();};
-  void ajouterGroupe(Groupe* _groupe){if(!groupes.contains(_groupe))groupes.append(_groupe);};
+  void retirerGroupes();
+  void ajouterGroupe(Groupe* _groupe);
   int obtenirInteretRencontre(const Individu *_personneRencontree) const;
   const QList<Groupe*> obtenirGroupes()const{return groupes;};
 

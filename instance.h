@@ -16,6 +16,14 @@ class Instance : public QObject
     QList<Individu> participants;
     GroupeManager groupes;
     int nombreTours;
+signals:
+  void tableCree(QString _label, int _id, int _capacite);
+  void tableSupprimee(int _id);
+  void individuCree(QString _nom, int _id);
+  void individuSupprime(int _id);
+  void modifierTours(int _nombreTours);
+  void individuChange();
+  void supprimerSolution();
 public:
     explicit Instance(QObject *parent = 0);
 
@@ -52,16 +60,10 @@ public:
 
     void vider();
 
+    void signalerChangementIndividu(){emit individuChange();};
 
-  signals:
-    void tableCree(QString _label, int _id, int _capacite);
-    void tableSupprimee(int _id);
-    void individuCree(QString _nom, int _id);
-    void individuSupprime(int _id);
-    void modifierTours(int _nombreTours);
 
-signals:
-    void supprimerSolution();
+
 
 public slots:
 };

@@ -46,6 +46,10 @@ Visualisation::Visualisation(QWidget *parent) : QWidget(parent)
 
     //Connexion de la sélection du menu de sélection de tours avec la composant qui affiche le tour afin de mettre ce dernier à jour
     connect(listeTours, SIGNAL(currentIndexChanged(int)), this, SLOT(tourChange(int)));
+
+    //Connexion des signaux indiquant que la valeur de la solution (mais pas la solution elle-même) a été modifiée pour afficher la nouvelle valeur
+    connect(&Meeting::obtenirInstance().obtenirProbleme(), SIGNAL(individuChange()), this, SLOT(valeurSolutionChangee()));
+    connect(Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirMatriceInteret(), SIGNAL(valeurChangee()), this, SLOT(valeurSolutionChangee()));
 }
 /*!
  * \brief Visualisation::solutionAffiche appellé après le calcul d'un solution, initialise l'affichage
@@ -138,5 +142,20 @@ void Visualisation::solutionDesactivee()
     tableaux.clear();
     //Et on signale que les métadonnées sont vides
     emit metaDonneesChangees();
+
+}
+/*!
+ * \brief Visualisation::valeurSolutionChangee met à jour les valeurs affichées des solutions et tours
+ */
+void Visualisation::valeurSolutionChangee()
+{
+    //On vérifie qu'il existe une solution et qu'on est prêt à l'afficher
+    if(!Meeting::obtenirInstance().obtenirSolution().solutionVide() && afficher)
+    {
+        //On ajuste la valeur de la solution
+        valeurSolution->setText("Valeur de la solution : " + QString::number(Meeting::obtenirInstance().obtenirSolution().obtenirValeur()));
+        //Valeur du tour
+        valeurTour->setText("Valeur du tour : " + QString::number(Meeting::obtenirInstance().obtenirSolution().obtenirTour(numero).obtenirValeur()));
+    }
 
 }

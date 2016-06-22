@@ -17,19 +17,17 @@ private:
   Table* table;
   /*! La liste des personnes assistant à cette rencontre */
   QList<const Individu*> personnes;
-  /*! La valeur de la rencontre */
-  int valeur;
   // Operations
 public:
-  Rencontre(Table* _table, QList<const Individu*> _personnes, int _valeur):table(_table), personnes(_personnes), valeur(_valeur){};
-  Rencontre(int _table, QList<int> _personnes, int _valeur);
+  Rencontre(Table* _table, QList<const Individu*> _personnes):table(_table), personnes(_personnes){};
+  Rencontre(int _table, QList<int> _personnes);
   Rencontre(const Rencontre& _rencontre){(*this)=_rencontre;};
   Rencontre& operator =(const Rencontre& _rencontre);
 
   //Gestion des personnes
   bool ajouterPersonne (const Individu* _personne);
   void retirerPersonne (const Individu* _personne);
-  int obtenirValeurRencontre()const {return valeur;};
+  int obtenirValeurRencontre()const;
   bool contientPersonne(const Individu* _personne);
   void remplacePersonne(const Individu* _personneARemplacer, const Individu* _personneRemplacante);
 

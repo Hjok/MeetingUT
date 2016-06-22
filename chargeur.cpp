@@ -261,7 +261,6 @@ void ParseurXml::chargeSolution(QString _chemin)
 
     //Variables temporaires pour les rencontres
     QString tableRencontre;
-    QString valeurRencontre;
     QList<int> personnesRencontre;
 
     Tour nouveauTour;
@@ -314,7 +313,7 @@ void ParseurXml::chargeSolution(QString _chemin)
                                         }
                                         if(tableElement.tagName() == "value")
                                         {
-                                            valeurRencontre = tableElement.text();
+                                            //Rien, on n'a pas usage de la valeur
                                         }
                                         if(tableElement.tagName() == "personList")
                                         {
@@ -334,12 +333,11 @@ void ParseurXml::chargeSolution(QString _chemin)
                                         table = table.nextSibling();
                                     }
                                 }
-                                if(!tableRencontre.isEmpty() && !valeurRencontre.isEmpty() && ! personnesRencontre.empty())
+                                if(!tableRencontre.isEmpty() && ! personnesRencontre.empty())
                                 {
-                                    nouveauTour.ajouterRencontre(Rencontre(tableRencontre.toInt(),personnesRencontre, valeurRencontre.toInt()));
+                                    nouveauTour.ajouterRencontre(Rencontre(tableRencontre.toInt(),personnesRencontre));
                                     personnesRencontre.clear();
                                     tableRencontre=QString();
-                                    valeurRencontre=QString();
                                 }
                             }
                         }

@@ -32,6 +32,8 @@ private:
     //Convertisseurs d'index
     const Groupe *obtenirIndex(int _index) const;
     int obtenirPlace(const Groupe* _g) const;
+signals:
+    void valeurChangee();
 };
 
 #endif // MATRICEINTERET_H

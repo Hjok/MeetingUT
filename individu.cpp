@@ -30,8 +30,20 @@ void Individu::retirerGroupe(Groupe *_groupe)
 {
     int i = groupes.indexOf(_groupe);
     if(i>=0)
+    {
         groupes.removeAt(i);
+        Meeting::obtenirInstance().obtenirProbleme().signalerChangementIndividu();
+    }
 }
+/*!
+ * \brief Individu::retirerGroupe retire tous les groupes
+ */
+void Individu::retirerGroupes()
+{
+    groupes.clear();
+    Meeting::obtenirInstance().obtenirProbleme().signalerChangementIndividu();
+}
+
 /*!
  * \brief Individu::obtenirInteretRencontre Retourne l'interet qu'à cette personne à en rencontrer une autre
  * \param _personneRencontree un pointeur sur la personne rencontrée
@@ -50,4 +62,16 @@ int Individu::obtenirInteretRencontre(const Individu *_personneRencontree) const
         }
     }
     return interet;
+}
+/*!
+ * \brief Individu::ajouterGroupe l'individu a un groupe en plus !
+ * \param _groupe le groupe auquel ajouter l'individu
+ */
+void Individu::ajouterGroupe(Groupe *_groupe)
+{
+    if(!groupes.contains(_groupe))
+    {
+        groupes.append(_groupe);
+        Meeting::obtenirInstance().obtenirProbleme().signalerChangementIndividu();
+    }
 }

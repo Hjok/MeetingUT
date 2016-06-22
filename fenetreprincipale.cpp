@@ -86,6 +86,9 @@ FenetrePrincipale::FenetrePrincipale(QWidget *parent) :
     connect(&Meeting::obtenirInstance().obtenirProbleme(), SIGNAL(tableCree(QString,int,int)), this, SLOT(activerBoutonCalcul()));
     connect(&Meeting::obtenirInstance().obtenirProbleme(), SIGNAL(individuCree(QString,int)), this, SLOT(activerBoutonCalcul()));
     connect(&Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager(), SIGNAL(listeGroupeAjout(QString)), this, SLOT(activerBoutonCalcul()));
+    connect(&Meeting::obtenirInstance().obtenirProbleme(), SIGNAL(individuChange()), this, SLOT(activerBoutonCalcul()));
+    connect(Meeting::obtenirInstance().obtenirProbleme().obtenirGroupeManager().obtenirMatriceInteret(), SIGNAL(valeurChangee()), this, SLOT(activerBoutonCalcul()));
+    connect(&Meeting::obtenirInstance().obtenirSolution(), SIGNAL(solutionSupprimee()), this, SLOT(activerBoutonCalcul()));
 
 
 }

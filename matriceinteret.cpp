@@ -68,7 +68,10 @@ bool MatriceInteret::setData(const QModelIndex & index, const QVariant & value, 
     if (role == Qt::EditRole)
     {
         if(obtenirIndex(index.row()) && obtenirIndex(index.column()))
+        {
             matrice[obtenirIndex(index.row())][obtenirIndex(index.column())] = value.toInt();
+            emit valeurChangee();
+        }
     }
     return true;
 }
